@@ -2,6 +2,12 @@ import cors from 'cors';
 import express from 'express';
 import morgan from 'morgan';
 import apiRouter from './routes/index.js';
+import dotenv from 'dotenv';
+import dbConnection from './config/orm-config.js';
+
+dotenv.config();
+
+dbConnection();
 
 const app = express();
 
