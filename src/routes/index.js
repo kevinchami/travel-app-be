@@ -19,10 +19,10 @@ const useRoute = async (prefix, importPath) => {
   }
 };
 
-const getRoutePrefix = (routeName) => routeName.split('.').shift() || '';
+const getRoutePrefix = routeName => routeName.split('.').shift() || '';
 
 //maps all routes
-fs.readdirSync(THIS_PATH).map(async (fileName) => {
+fs.readdirSync(THIS_PATH).map(async fileName => {
   const routePrefix = lowerFirst(getRoutePrefix(fileName));
   const importPath = path.join(THIS_PATH, `${routePrefix}.route.js`);
 

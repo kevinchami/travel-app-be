@@ -1,5 +1,8 @@
 import { Schema, model } from 'mongoose';
-const mongoose = require('mongoose');
+
+const citySchema = new Schema({
+  name: { type: String, required: true },
+});
 
 const countrySchema = new Schema(
   {
@@ -10,12 +13,7 @@ const countrySchema = new Schema(
       key: String,
     },
     region: String,
-    cities: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'City',
-      },
-    ],
+    cities: [citySchema],
   },
   { timestamps: true },
 );
