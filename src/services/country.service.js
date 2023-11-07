@@ -1,8 +1,13 @@
 import Country from '../models/country.js';
 
 export const getCountries = async () => {
-  const countries = await Country.find();
-  return { countries };
+  const countries = await Country.find().populate('cities');
+  return countries;
+};
+
+export const getCountryById = async countryId => {
+  const country = await Country.findById(countryId);
+  return country;
 };
 
 export const createCountry = async (name, description, imageUrl, region) => {
@@ -23,6 +28,29 @@ export const addCityToCountry = async (countryId, cityName) => {
     countryId,
     { $push: { cities: { name: cityName } } },
     { new: true }, // { new: true } option is used to return the updated document after the update is applied
+  );
+  return updatedCountry;
+};
+
+export const removeCityFromCountry = async (countryId, cityName) => {
+  const updatedCountry = await Country.findByIdAndUpdate(
+    countryId,
+    { $pull: { cities: { name: cityName } } },
+    { new: true },
+  );
+  return updatedCountry;
+};
+
+export const removeCountryById = async countryId => {
+  const result = await Country.findOneAndDelete({ _id: countryId });
+  return result;
+};
+
+export const updateCountryById = async (countryId, updatedData) => {
+  const updatedCountry = await Country.findByIdAndUpdate(
+    countryId,
+    updatedData,
+    { new: true },
   );
   return updatedCountry;
 };
