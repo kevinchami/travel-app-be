@@ -5,7 +5,11 @@ import { safe } from '../utils/error-handling.js';
 const router = express.Router();
 
 router.get('/', safe(countryController.getCountries));
+router.get('/getcountry', safe(countryController.getCountryById));
 router.post('/create', safe(countryController.createCountry));
-router.post('/addcity', safe(countryController.addCityToCountry)); // Add this line for the new functionality
+router.delete('/remove', safe(countryController.removeCountry));
+router.post('/addcity', safe(countryController.addCityToCountry));
+router.delete('/removecity', safe(countryController.removeCityFromCountry));
+router.post('/update', safe(countryController.updateCountry));
 
 export default router;
