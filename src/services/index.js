@@ -3,3 +3,4 @@ export * as cityService from './city.service.js';
 export * as accommodationService from './accomodation.service.js';
 export * as restaurantService from './restaurant.service.js';
 export * as templeService from './temple.service.js';
+export * as tourService from './tour.service.js';
