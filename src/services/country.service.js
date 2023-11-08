@@ -1,7 +1,10 @@
 import Country from '../models/country.js';
 
 export const getCountries = async () => {
-  const countries = await Country.find().populate('cities');
+  const countries = await Country.find().populate({
+    path: 'cities',
+    select: 'name description',
+  });
   return countries;
 };
 

@@ -4,3 +4,5 @@ export * as accommodationController from './accomodation.controller.js';
 export * as restaurantController from './restaurant.controller.js';
 export * as templeController from './temple.controller.js';
 export * as tourController from './tour.controller.js';
+export * as reviewController from './review.controller.js';
+export * as userController from './user.controller.js';
