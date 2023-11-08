@@ -6,7 +6,7 @@ export class Exception extends Error {
   }
 }
 
-export const safe = (fn) => async (req, res, next) => {
+export const safe = fn => async (req, res, next) => {
   try {
     await fn(req, res);
   } catch (error) {
