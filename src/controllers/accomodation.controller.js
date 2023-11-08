@@ -46,8 +46,9 @@ export const getAccommodations = async (req, res) => {
 
 export const getAccommodationById = async (req, res) => {
   const { accommodationId } = req.params;
-  const accommodation =
-    await accommodationService.getAccommodationById(accommodationId);
+  const accommodation = await accommodationService
+    .getAccommodationById(accommodationId)
+    .populate({ path: 'reviews' });
   return res.status(200).json(accommodation);
 };
 

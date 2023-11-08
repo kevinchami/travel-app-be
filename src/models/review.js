@@ -1,0 +1,33 @@
+import { Schema, model } from 'mongoose';
+
+const reviewSchema = new Schema(
+  {
+    /*placeType: {
+      type: String,
+      required: true,
+      enum: ['restaurant', 'accommodation', 'tour'], // Adjust the options as needed
+    },
+    placeId: {
+      type: Schema.Types.ObjectId,
+      required: true,
+      refPath: 'placeType',
+    },
+    */
+    placeId: {
+      type: Schema.Types.ObjectId,
+      required: true,
+      ref: 'Restaurant',
+    },
+    review: { type: String, required: true },
+    rating: { type: String, required: true },
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+    },
+  },
+  { timestamps: true },
+);
+
+const Review = model('Review', reviewSchema);
+
+export default Review;

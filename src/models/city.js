@@ -1,5 +1,6 @@
 import { Schema, model } from 'mongoose';
 
+/*
 const tourSchema = new Schema({
   name: { type: String, required: true },
 });
@@ -20,14 +21,15 @@ const accommodationSchema = new Schema({
     required: true,
   },
 });
+*/
 
 const citySchema = new Schema(
   {
     name: { type: String, required: true },
     description: { type: String, required: true },
-    tours: [tourSchema],
-    temples: [templeSchema],
-    restaurants: [restaurantSchema],
+    tours: [{ type: Schema.Types.ObjectId, ref: 'Tour' }],
+    temples: [{ type: Schema.Types.ObjectId, ref: 'Temple' }],
+    restaurants: [{ type: Schema.Types.ObjectId, ref: 'Restaurant' }],
     accommodations: [{ type: Schema.Types.ObjectId, ref: 'Accommodation' }], // Reference to the Accommodation model
     country: {
       type: Schema.Types.ObjectId,

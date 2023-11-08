@@ -9,7 +9,12 @@ const AccomodationSchema = new Schema(
     contact: { type: Number, required: true },
     imageUrl: { type: String, required: true },
     rating: { type: Number, required: true },
-    review: { type: String, required: true },
+    reviews: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Review',
+      },
+    ],
     location: { type: String, required: true },
     coordinates: {
       latitude: { type: Number, required: true },

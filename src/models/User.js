@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
+import { Schema, model } from 'mongoose';
 
-const UserSchema = new mongoose.Schema({
+const UserSchema = new Schema({
   username: { type: String, require: true },
   email: { type: String, require: true, unique: true },
   password: { type: String, require: true },
@@ -10,5 +10,6 @@ const UserSchema = new mongoose.Schema({
       'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/2048px-Default_pfp.svg.png',
   },
 });
+const User = model('User', UserSchema);
 
-module.exports = mongoose.model('User', UserSchema);
+export default User;
