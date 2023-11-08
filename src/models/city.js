@@ -21,18 +21,21 @@ const accommodationSchema = new Schema({
   },
 });
 
-const citySchema = new Schema({
-  name: { type: String, required: true },
-  description: { type: String, required: true },
-  tours: [tourSchema],
-  temples: [templeSchema],
-  restaurants: [restaurantSchema],
-  accommodations: [accommodationSchema],
-  country: {
-    type: Schema.Types.ObjectId,
-    ref: 'Country',
+const citySchema = new Schema(
+  {
+    name: { type: String, required: true },
+    description: { type: String, required: true },
+    tours: [tourSchema],
+    temples: [templeSchema],
+    restaurants: [restaurantSchema],
+    accommodations: [{ type: Schema.Types.ObjectId, ref: 'Accommodation' }], // Reference to the Accommodation model
+    country: {
+      type: Schema.Types.ObjectId,
+      ref: 'Country',
+    },
   },
-});
+  { timestamps: true },
+);
 
 const City = model('City', citySchema);
 
