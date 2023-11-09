@@ -7,6 +7,12 @@ const TempleSchema = new Schema(
     contact: { type: Number, required: true },
     imageUrl: { type: String, required: true },
     location: { type: String, required: true },
+    mapsUrl: { type: String, required: true },
+    category: {
+      type: String,
+      enum: ['temple', 'tour', 'restaurant', 'accommodation'],
+      required: false,
+    },
     coordinates: {
       latitude: { type: Number, required: true },
       longitude: { type: Number, required: true },

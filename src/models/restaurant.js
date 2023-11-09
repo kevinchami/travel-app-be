@@ -8,6 +8,11 @@ const RestaurantSchema = new Schema(
     imageUrl: { type: String, required: true },
     menuUrl: { type: String, required: true },
     mapsUrl: { type: String, required: true },
+    category: {
+      type: String,
+      enum: ['temple', 'tour', 'restaurant', 'accommodation'],
+      required: false,
+    },
     rating: { type: Number, required: true },
     reviews: [
       {

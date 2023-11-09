@@ -8,6 +8,11 @@ const AccomodationSchema = new Schema(
     price: { type: Number, required: true },
     contact: { type: Number, required: true },
     imageUrl: { type: String, required: true },
+    category: {
+      type: String,
+      enum: ['temple', 'tour', 'restaurant', 'accommodation'],
+      required: false,
+    },
     rating: { type: Number, required: true },
     reviews: [
       {
