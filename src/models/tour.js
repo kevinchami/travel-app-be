@@ -10,6 +10,11 @@ const TourSchema = new Schema(
     imageUrl: { type: String, required: true },
     rating: { type: Number, required: true },
     review: { type: String, required: true },
+    category: {
+      type: String,
+      enum: ['temple', 'tour', 'restaurant', 'accommodation'],
+      required: false,
+    },
     location: { type: String, required: true },
     city: {
       type: Schema.Types.ObjectId,
