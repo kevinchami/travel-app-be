@@ -10,6 +10,20 @@ const TourSchema = new Schema(
     imageUrl: { type: String, required: true },
     rating: { type: Number, required: true },
     review: { type: String, required: true },
+    reviews: [
+      {
+        user: {
+          type: Schema.Types.ObjectId,
+          ref: 'User', // assuming you have a User schema
+          required: true,
+        },
+        rating: { type: Number, required: true },
+        review: { type: String, required: true },
+        profile: { type: String, required: true },
+        updatedAt: { type: Date, default: Date.now },
+        // any other properties specific to a review
+      },
+    ],
     category: {
       type: String,
       enum: ['temple', 'tour', 'restaurant', 'accommodation'],

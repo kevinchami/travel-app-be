@@ -24,9 +24,7 @@ export const getRestaurantById = async (req, res) => {
 // Get restaurants by city
 export const getRestaurantsByCity = async (req, res) => {
   const { cityId } = req.params;
-  const restaurants = await restaurantService
-    .getRestaurantsByCity(cityId)
-    .populate({ path: 'reviews' });
+  const restaurants = await restaurantService.getRestaurantsByCity(cityId);
   return res.status(200).json(restaurants);
 };
 

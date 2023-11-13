@@ -8,6 +8,8 @@ const RestaurantSchema = new Schema(
     imageUrl: { type: String, required: true },
     menuUrl: { type: String, required: true },
     mapsUrl: { type: String, required: true },
+    kosherBoolean: { type: Boolean, required: true, default: true },
+    bookingNeeded: { type: Boolean, required: true, default: true },
     category: {
       type: String,
       enum: ['temple', 'tour', 'restaurant', 'accommodation'],
@@ -34,14 +36,6 @@ const RestaurantSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: 'City',
     },
-    specifications: [
-      {
-        kosher: { type: Boolean, required: true, default: true },
-      },
-      {
-        booking: { type: Boolean, default: true },
-      },
-    ],
   },
   { timestamps: true },
 );
