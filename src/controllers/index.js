@@ -6,3 +6,4 @@ export * as templeController from './temple.controller.js';
 export * as tourController from './tour.controller.js';
 export * as reviewController from './review.controller.js';
 export * as userController from './user.controller.js';
+export * as wishlistController from './wishlist.controller.js';
