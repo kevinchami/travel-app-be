@@ -6,3 +6,4 @@ export * as templeService from './temple.service.js';
 export * as tourService from './tour.service.js';
 export * as reviewService from './review.service.js';
 export * as userService from './user.service.js';
+export * as wishlistService from './wishlist.service.js';
