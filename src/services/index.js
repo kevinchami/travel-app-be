@@ -7,3 +7,4 @@ export * as tourService from './tour.service.js';
 export * as reviewService from './review.service.js';
 export * as userService from './user.service.js';
 export * as wishlistService from './wishlist.service.js';
+export * as authService from './auth.service.js';

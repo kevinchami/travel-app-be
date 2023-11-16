@@ -39,7 +39,9 @@ export const removeFromWishlist = async (userId, productId, category) => {
     if (!deletedItem) {
       throw new Error('Item not found in wishlist');
     }
-
+    console.log('====================================');
+    console.log('delet item: ', deletedItem);
+    console.log('====================================');
     return deletedItem;
   } catch (error) {
     throw new Error('Failed to remove item from wishlist');

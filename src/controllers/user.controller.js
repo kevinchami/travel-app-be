@@ -17,3 +17,26 @@ export const listUsers = async (req, res) => {
     throw new Error(error.message);
   }
 };
+
+export const deleteUser = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    await userService.deleteUser(userId);
+    return res.status(200).json({ message: 'User deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting user:', error.message);
+    return res.status(500).json({ error: 'Failed to delete user' });
+  }
+};
+
+export const getUser = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    //const { userId } = req.user.id;
+    const user = await userService.getUser(userId);
+    return res.status(200).json(user);
+  } catch (error) {
+    console.error('Error fetching user:', error.message);
+    return res.status(500).json({ error: 'Failed to fetch user' });
+  }
+};
