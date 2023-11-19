@@ -29,7 +29,6 @@ const RestaurantSchema = new Schema(
     },
     type: {
       type: String,
-      enum: ['meat', 'dairy', 'asado', 'burguer', 'sushi'],
       required: true,
     },
     city: {

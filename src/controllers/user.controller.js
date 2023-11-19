@@ -40,3 +40,15 @@ export const getUser = async (req, res) => {
     return res.status(500).json({ error: 'Failed to fetch user' });
   }
 };
+
+export const updateUserName = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const { newName } = req.body;
+    const updatedUser = await userService.updateUserName(userId, newName);
+    res.status(200).json(updatedUser);
+  } catch (error) {
+    console.error('Error updating user name:', error.message);
+    res.status(500).json({ error: 'Failed to update user name' });
+  }
+};

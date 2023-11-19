@@ -45,3 +45,14 @@ export const updateRestaurant = async (req, res) => {
   );
   return res.status(200).json(updatedRestaurant);
 };
+
+// Get distinct types for filtering
+export const getDistinctTypes = async (req, res) => {
+  try {
+    const distinctTypes = await restaurantService.getDistinctTypes();
+    return res.status(200).json(distinctTypes);
+  } catch (error) {
+    console.error('Error fetching distinct types:', error);
+    return res.status(500).json({ error: 'Internal Server Error' });
+  }
+};

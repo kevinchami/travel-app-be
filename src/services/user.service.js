@@ -32,3 +32,19 @@ export const getUser = async userId => {
     throw new Error('Failed to fetch user');
   }
 };
+
+export const updateUserName = async (userId, newName) => {
+  try {
+    const user = await User.findByIdAndUpdate(
+      userId,
+      { username: newName },
+      { new: true },
+    );
+    if (!user) {
+      throw new Error('User not found');
+    }
+    return user;
+  } catch (error) {
+    throw new Error('Failed to update user name');
+  }
+};
