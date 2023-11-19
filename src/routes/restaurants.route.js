@@ -28,4 +28,7 @@ router.put(
   safe(restaurantController.updateRestaurant),
 );
 
+// Add a new route to get distinct types for filtering
+router.get('/getdistincttypes', safe(restaurantController.getDistinctTypes));
+
 export default router;

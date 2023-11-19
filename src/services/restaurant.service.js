@@ -59,3 +59,12 @@ export const updateRestaurant = async (restaurantId, updatedData) => {
   }
   return updatedRestaurant;
 };
+
+// Get distinct types for filtering
+export const getDistinctTypes = async () => {
+  const distinctTypes = await Restaurant.distinct('type');
+  if (!distinctTypes) {
+    throw new Error('Failed to fetch distinct types');
+  }
+  return distinctTypes;
+};
