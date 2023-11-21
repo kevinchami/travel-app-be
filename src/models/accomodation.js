@@ -7,7 +7,7 @@ const AccomodationSchema = new Schema(
     description: { type: String, required: true },
     price: { type: Number, required: true },
     contact: { type: Number, required: true },
-    imageUrl: { type: String, required: true },
+    imageUrl: [{ type: String, required: true }],
     category: {
       type: String,
       enum: ['temple', 'tour', 'restaurant', 'accommodation'],
