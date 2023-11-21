@@ -5,7 +5,7 @@ const RestaurantSchema = new Schema(
     countryId: { type: String, required: false },
     name: { type: String, required: true },
     contact: { type: Number, required: true },
-    imageUrl: { type: String, required: true },
+    imageUrl: [{ type: String, required: true }],
     menuUrl: { type: String, required: true },
     mapsUrl: { type: String, required: true },
     kosherBoolean: { type: Boolean, required: true, default: true },
