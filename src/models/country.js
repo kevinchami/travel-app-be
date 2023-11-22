@@ -10,7 +10,6 @@ const countrySchema = new Schema(
       key: String,
     },
     region: String,
-    // TODO i need to put here the cities? because i have a function getCitiesOfCountry in city modules.
     cities: [{ type: Schema.Types.ObjectId, ref: 'City' }], // Reference to the City model
   },
   { timestamps: true },
