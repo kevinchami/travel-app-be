@@ -36,7 +36,6 @@ export const getReviewsByUser = async userId => {
   return reviews;
 };
 
-//TODO NO FUNCIONA. NO FILTRA POR PLACEID SINO QUE DEVUELVE TODAS LAS REVIEWS QUE HAY
 // Update the getReviewsByPlaceId function
 export const getReviewsByPlaceId = async placeId => {
   try {
