@@ -37,9 +37,21 @@ export const getReviewsByUser = async userId => {
 };
 
 //TODO NO FUNCIONA. NO FILTRA POR PLACEID SINO QUE DEVUELVE TODAS LAS REVIEWS QUE HAY
+// Update the getReviewsByPlaceId function
 export const getReviewsByPlaceId = async placeId => {
-  const reviews = await Review.find({ place: placeId });
-  return reviews;
+  try {
+    const reviews = await Review.find({ placeId: placeId })
+      .populate({
+        path: 'user',
+        select: 'username profile',
+      })
+      .exec();
+
+    return reviews;
+  } catch (error) {
+    console.error('Error fetching reviews:', error);
+    throw error; // Rethrow the error for handling in the calling function or component
+  }
 };
 
 export const getReviewById = async reviewId => {

@@ -32,8 +32,11 @@ export const getReviewsByUser = async (req, res) => {
 };
 
 export const getReviewsByPlaceId = async (req, res) => {
-  const { placeId } = req.params;
-  const reviews = await reviewService.getReviewsByPlaceId(placeId);
+  const { place } = req.params;
+  console.log('params: ', req.params);
+  console.log('place: ', place);
+
+  const reviews = await reviewService.getReviewsByPlaceId(place);
   res.status(200).json(reviews);
 };
 
