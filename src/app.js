@@ -16,7 +16,13 @@ Middlewares: every time you see "app.use" we are including a new
 middleware to the express server, you can read more about middle wares here:
 https://developer.okta.com/blog/2018/09/13/build-and-understand-express-middleware-through-examples
 */
-app.use(cors()); //disable CORS validations
+app.use(
+  cors({
+    // TODO check!!!!
+    origin: 'https://travel-app-be.onrender.com',
+    // other options as needed
+  }),
+); //disable CORS validations
 app.use(express.urlencoded({ extended: true }));
 app.use((req, res, next) => {
   express.json({ limit: '50mb' })(req, res, next);

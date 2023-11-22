@@ -8,6 +8,7 @@ const TempleSchema = new Schema(
     imageUrl: [{ type: String, required: true }],
     location: { type: String, required: true },
     mapsUrl: { type: String, required: true },
+    shabbatfood: { type: Boolean, required: false },
     category: {
       type: String,
       enum: ['temple', 'tour', 'restaurant', 'accommodation'],

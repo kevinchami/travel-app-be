@@ -33,6 +33,8 @@ export const loginUser = async (identifier, password) => {
       process.env.SECRET,
     ).toString(CryptoJS.enc.Utf8);
 
+    console.log(decryptedPassword);
+
     // Compare the decrypted password with the provided password
     if (decryptedPassword === password) {
       return user; // Passwords match, return the user
