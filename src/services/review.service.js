@@ -53,6 +53,17 @@ export const getReviewsByPlaceId = async placeId => {
   }
 };
 
+export const getReviewsLengthByPlaceId = async placeId => {
+  try {
+    const reviews = await Review.find({ placeId: placeId });
+    console.log('rev length', reviews.length);
+    return reviews.length;
+  } catch (error) {
+    console.error('Error fetching reviews:', error);
+    throw error; // Rethrow the error for handling in the calling function or component
+  }
+};
+
 export const getReviewById = async reviewId => {
   const review = await Review.findById(reviewId);
   return review;
