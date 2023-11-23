@@ -33,10 +33,17 @@ export const getReviewsByUser = async (req, res) => {
 
 export const getReviewsByPlaceId = async (req, res) => {
   const { place } = req.params;
+
+  const reviews = await reviewService.getReviewsByPlaceId(place);
+  res.status(200).json(reviews);
+};
+
+export const getReviewsLengthByPlaceId = async (req, res) => {
+  const { place } = req.params;
   console.log('params: ', req.params);
   console.log('place: ', place);
 
-  const reviews = await reviewService.getReviewsByPlaceId(place);
+  const reviews = await reviewService.getReviewsLengthByPlaceId(place);
   res.status(200).json(reviews);
 };
 
