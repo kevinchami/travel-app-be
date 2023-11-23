@@ -4,7 +4,7 @@ const reviewSchema = new Schema(
   {
     placeType: {
       type: String,
-      required: true,
+      required: false,
       enum: ['Restaurant', 'Accomodation', 'Tour'], // Adjust the options as needed
     },
     placeId: {
