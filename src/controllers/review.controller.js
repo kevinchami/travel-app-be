@@ -60,3 +60,13 @@ export const updateReview = async (req, res) => {
   );
   res.status(200).json(updatedReview);
 };
+
+export const calculateAverageRating = async (req, res) => {
+  try {
+    const { placeId } = req.params;
+    const averageRating = await reviewService.calculateAverageRating(placeId);
+    res.status(200).json({ averageRating });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
