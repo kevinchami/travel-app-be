@@ -21,5 +21,9 @@ router.get(
   safe(reviewController.getReviewsLengthByPlaceId),
 );
 router.put('/updatereview/:reviewId', safe(reviewController.updateReview));
+router.get(
+  '/calculateAverageRating/:placeId',
+  safe(reviewController.calculateAverageRating),
+);
 
 export default router;
