@@ -8,3 +8,4 @@ export * as reviewController from './review.controller.js';
 export * as userController from './user.controller.js';
 export * as wishlistController from './wishlist.controller.js';
 export * as authController from './auth.controller.js';
+export * as memorialController from './memorial.controller.js';
