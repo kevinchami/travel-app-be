@@ -5,6 +5,7 @@ const countrySchema = new Schema(
   {
     name: { type: String, required: true },
     description: { type: String, required: true },
+    priority: { type: Number, required: false },
     image: {
       url: String,
       key: String,

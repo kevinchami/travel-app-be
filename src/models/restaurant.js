@@ -10,6 +10,7 @@ const RestaurantSchema = new Schema(
     mapsUrl: { type: String, required: true },
     kosherBoolean: { type: Boolean, required: true, default: true },
     bookingNeeded: { type: Boolean, required: true, default: true },
+    priority: { type: Number, required: false },
     category: {
       type: String,
       enum: ['temple', 'tour', 'restaurant', 'accommodation'],

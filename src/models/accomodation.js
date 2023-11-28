@@ -6,8 +6,10 @@ const AccomodationSchema = new Schema(
     name: { type: String, required: true },
     description: { type: String, required: true },
     price: { type: Number, required: true },
+    priceDetail: { type: String, required: false },
     contact: { type: Number, required: true },
     imageUrl: [{ type: String, required: true }],
+    priority: { type: Number, required: false },
     languages: {
       type: [String],
       required: true,
