@@ -9,6 +9,7 @@ const TempleSchema = new Schema(
     location: { type: String, required: true },
     mapsUrl: { type: String, required: true },
     shabbatfood: { type: Boolean, required: false },
+    priority: { type: Number, required: false },
     category: {
       type: String,
       enum: ['temple', 'tour', 'restaurant', 'accommodation'],

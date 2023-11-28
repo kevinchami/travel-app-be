@@ -10,6 +10,7 @@ const TourSchema = new Schema(
     imageUrl: [{ type: String, required: true }],
     rating: { type: Number, required: true },
     review: { type: String, required: true },
+    priority: { type: Number, required: false },
     reviews: [
       {
         type: Schema.Types.ObjectId,
