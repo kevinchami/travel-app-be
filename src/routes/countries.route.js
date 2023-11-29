@@ -6,6 +6,7 @@ const router = express.Router();
 
 router.get('/', safe(countryController.getCountries));
 router.get('/getcountry', safe(countryController.getCountryById));
+router.get('/country/:countryName', countryController.getCountryIdByName);
 router.post('/create', safe(countryController.createCountry));
 router.delete('/remove', safe(countryController.removeCountry));
 router.post('/addcity', safe(countryController.addCityToCountry));
