@@ -67,3 +67,20 @@ export const updateCountry = async (req, res) => {
   }
   return res.status(200).json(updatedCountry);
 };
+
+export const getCountryIdByName = async (req, res) => {
+  const { countryName } = req.params;
+
+  try {
+    const countryId = await countryService.getCountryIdByName(countryName);
+
+    if (!countryId) {
+      return res.status(404).json({ error: 'Country not found' });
+    }
+
+    return res.status(200).json({ countryId });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: 'Internal Server Error' });
+  }
+};

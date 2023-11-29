@@ -57,3 +57,8 @@ export const updateCountryById = async (countryId, updatedData) => {
   );
   return updatedCountry;
 };
+
+export const getCountryIdByName = async countryName => {
+  const country = await Country.findOne({ name: countryName });
+  return country ? country._id : null;
+};
