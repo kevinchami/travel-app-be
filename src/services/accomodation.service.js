@@ -1,5 +1,6 @@
 import Accommodation from '../models/accomodation.js';
 import City from '../models/city.js';
+import Country from '../models/country.js';
 
 export const addAccommodation = async accommodationData => {
   const accommodation = await Accommodation.create(accommodationData);
@@ -70,4 +71,19 @@ export const updateAccommodation = async (accommodationId, updatedData) => {
     { new: true },
   );
   return updatedAccommodation;
+};
+
+export const filterAccommodationsByCountry = async countryName => {
+  // Assuming you have a field named 'name' in your Country model
+  const country = await Country.findOne({ name: countryName });
+
+  if (!country) {
+    // Handle the case where the country doesn't exist
+    return [];
+  }
+
+  // Now, use the obtained country._id to filter accommodations
+  const accommodations = await Accommodation.find({ countryId: country._id });
+
+  return accommodations;
 };
