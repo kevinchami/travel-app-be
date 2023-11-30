@@ -34,5 +34,9 @@ router.put(
   '/updateaccommodation/:accommodationId',
   safe(accommodationController.updateAccommodation),
 );
+router.get(
+  '/filter/:countryName',
+  accommodationController.filterAccommodationsByCountry,
+);
 
 export default router;
