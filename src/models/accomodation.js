@@ -7,6 +7,8 @@ const AccomodationSchema = new Schema(
     description: { type: String, required: true },
     price: { type: Number, required: true },
     priceDetail: { type: String, required: false },
+    webUrl: { type: String, required: false },
+    mapsUrl: { type: String, required: false },
     contact: { type: Number, required: true },
     imageUrl: [{ type: String, required: true }],
     priority: { type: Number, required: false },
