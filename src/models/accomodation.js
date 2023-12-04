@@ -5,6 +5,7 @@ const AccomodationSchema = new Schema(
     countryId: { type: String, required: false },
     name: { type: String, required: true },
     description: { type: String, required: true },
+    textHebrew: { type: Boolean, required: false, default: false },
     price: { type: Number, required: true },
     priceDetail: { type: String, required: false },
     webUrl: { type: String, required: false },
