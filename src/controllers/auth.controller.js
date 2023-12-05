@@ -9,7 +9,7 @@ import jwt from 'jsonwebtoken';
 
 export const newUser = async (req, res) => {
   try {
-    const { username, email, password } = req.body;
+    const { username, email, password, profile } = req.body;
 
     // Encrypt the password using CryptoJS
     const encryptedPassword = CryptoJS.AES.encrypt(
@@ -22,6 +22,7 @@ export const newUser = async (req, res) => {
       username,
       email,
       password: encryptedPassword,
+      profile,
     };
 
     const user = await authService.newUser(userData);
