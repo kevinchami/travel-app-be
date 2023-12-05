@@ -8,6 +8,7 @@ const AccomodationSchema = new Schema(
     textHebrew: { type: Boolean, required: false, default: false },
     price: { type: Number, required: true },
     priceDetail: { type: String, required: false },
+    priceShow: { type: Boolean, required: false, default: false },
     webUrl: { type: String, required: false },
     mapsUrl: { type: String, required: false },
     contact: { type: Number, required: true },
@@ -22,7 +23,7 @@ const AccomodationSchema = new Schema(
       enum: ['temple', 'tour', 'restaurant', 'accommodation'],
       required: false,
     },
-    rating: { type: Number, required: true },
+    //rating: { type: Number, required: false },
     reviews: [
       {
         type: Schema.Types.ObjectId,
