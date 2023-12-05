@@ -48,3 +48,19 @@ export const updateUserName = async (userId, newName) => {
     throw new Error('Failed to update user name');
   }
 };
+
+export const updatePicture = async (userId, newPicture) => {
+  try {
+    const user = await User.findByIdAndUpdate(
+      userId,
+      { profile: newPicture },
+      { new: true },
+    );
+    if (!user) {
+      throw new Error('User not found');
+    }
+    return user;
+  } catch (error) {
+    throw new Error('Failed to update user name');
+  }
+};

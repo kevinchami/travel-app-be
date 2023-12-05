@@ -52,3 +52,18 @@ export const updateUserName = async (req, res) => {
     res.status(500).json({ error: 'Failed to update user name' });
   }
 };
+
+export const updatePicture = async (req, res) => {
+  try {
+    console.log('params:', req.params);
+    const { userId } = req.params;
+    const { newPicture } = req.body;
+    console.log('new pic: ', newPicture);
+    const updatedUser = await userService.updatePicture(userId, newPicture);
+    console.log('updated user: ', updatedUser);
+    res.status(200).json(updatedUser);
+  } catch (error) {
+    console.error('Error updating user name:', error.message);
+    res.status(500).json({ error: 'Failed to update user name' });
+  }
+};
