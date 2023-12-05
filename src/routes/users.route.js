@@ -13,5 +13,6 @@ router.get('/getusers', safe(userController.listUsers));
 router.delete('/delete/:userId', verifyToken, safe(userController.deleteUser));
 router.get('/:userId', safe(userController.getUser));
 router.put('/:userId/updateUserName', userController.updateUserName);
+router.put('/:userId/updatePicture', userController.updatePicture);
 
 export default router;
