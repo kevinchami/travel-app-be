@@ -9,3 +9,4 @@ export * as userService from './user.service.js';
 export * as wishlistService from './wishlist.service.js';
 export * as authService from './auth.service.js';
 export * as memorialService from './memorial.service.js';
+export * as partyService from './party.service.js';
