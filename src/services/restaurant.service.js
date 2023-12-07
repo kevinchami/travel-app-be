@@ -4,6 +4,7 @@ import Restaurant from '../models/restaurant.js';
 
 // Add new restaurant
 export const addRestaurant = async restaurantData => {
+  console.log('hi');
   const restaurant = await Restaurant.create(restaurantData);
   if (!restaurant) {
     throw new Error('Failed to add restaurant');
