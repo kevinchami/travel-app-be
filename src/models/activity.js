@@ -1,6 +1,6 @@
 import { Schema, model } from 'mongoose';
 
-const TourSchema = new Schema(
+const ActivitySchema = new Schema(
   {
     countryId: { type: String, required: false },
     name: { type: String, required: true },
@@ -11,9 +11,8 @@ const TourSchema = new Schema(
     durationDetail: [{ type: String, required: false }],
     contact: { type: Number, required: true },
     imageUrl: [{ type: String, required: true }],
-    rating: { type: Number, required: true },
-    review: { type: String, required: true },
     priority: { type: Number, required: false },
+    webUrl: { type: String, required: true },
     reviews: [
       {
         type: Schema.Types.ObjectId,
@@ -22,7 +21,6 @@ const TourSchema = new Schema(
     ],
     category: {
       type: String,
-      enum: ['temple', 'tour', 'restaurant', 'accommodation'],
       required: false,
     },
     location: { type: String, required: true },
@@ -33,12 +31,12 @@ const TourSchema = new Schema(
     },
     languages: {
       type: [String],
-      required: true,
+      required: false,
     },
   },
   { timestamps: true },
 );
 
-const Tour = model('Tour', TourSchema);
+const Activity = model('Activity', ActivitySchema);
 
-export default Tour;
+export default Activity;
