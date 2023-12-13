@@ -2,6 +2,7 @@ import { Schema, model } from 'mongoose';
 import Tour from './tour.js';
 import Accommodation from './accomodation.js';
 import Restaurant from './restaurant.js';
+import Activity from './activity.js';
 
 const WishlistSchema = new Schema(
   {
@@ -33,7 +34,8 @@ function getModelByCategory(category) {
       return Accommodation;
     case 'restaurant':
       return Restaurant;
-    // Add more cases as needed
+    case 'activity':
+      return Activity;
     default:
       return null;
   }
