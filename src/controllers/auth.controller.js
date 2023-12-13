@@ -47,6 +47,8 @@ export const loginUser = async (req, res) => {
 
     console.log('====================================');
     console.log('user in controller: ', email);
+    console.log('password in controller: ', password);
+
     console.log('====================================');
 
     if (user) {

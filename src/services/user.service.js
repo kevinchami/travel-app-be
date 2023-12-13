@@ -64,3 +64,19 @@ export const updatePicture = async (userId, newPicture) => {
     throw new Error('Failed to update user name');
   }
 };
+
+export const updatePassword = async (userId, newPassword) => {
+  try {
+    const user = await User.findByIdAndUpdate(
+      userId,
+      { password: newPassword },
+      { new: true },
+    );
+    if (!user) {
+      throw new Error('User not found');
+    }
+    return user;
+  } catch (error) {
+    throw new Error('Failed to update password');
+  }
+};
