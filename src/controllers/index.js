@@ -10,3 +10,4 @@ export * as wishlistController from './wishlist.controller.js';
 export * as authController from './auth.controller.js';
 export * as memorialController from './memorial.controller.js';
 export * as partyController from './party.controller.js';
+export * as ActivityController from './activity.controller.js';
