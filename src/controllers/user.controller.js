@@ -1,4 +1,6 @@
 import { userService } from '../services/index.js';
+import CryptoJS from 'crypto-js';
+import jwt from 'jsonwebtoken';
 
 export const createUser = async (req, res) => {
   try {
@@ -55,7 +57,6 @@ export const updateUserName = async (req, res) => {
 
 export const updatePicture = async (req, res) => {
   try {
-    console.log('params:', req.params);
     const { userId } = req.params;
     const { newPicture } = req.body;
     console.log('new pic: ', newPicture);
@@ -65,5 +66,26 @@ export const updatePicture = async (req, res) => {
   } catch (error) {
     console.error('Error updating user name:', error.message);
     res.status(500).json({ error: 'Failed to update user name' });
+  }
+};
+
+export const updatePassword = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const { newPassword } = req.body;
+    // Encrypt the password using CryptoJS
+    const encryptedPassword = CryptoJS.AES.encrypt(
+      newPassword,
+      process.env.SECRET,
+    ).toString();
+
+    const updatedUser = await userService.updatePassword(
+      userId,
+      encryptedPassword,
+    );
+    res.status(200).json(updatedUser);
+  } catch (error) {
+    console.error('Error updating password:', error.message);
+    res.status(500).json({ error: 'Failed to update password' });
   }
 };

@@ -22,6 +22,7 @@ export const loginUser = async (identifier, password) => {
     const user = await User.findOne({
       $or: [{ email: identifier }, { username: identifier }],
     });
+    console.log('user pssword: ', user.password);
 
     if (!user) {
       return null; // User not found
@@ -33,7 +34,8 @@ export const loginUser = async (identifier, password) => {
       process.env.SECRET,
     ).toString(CryptoJS.enc.Utf8);
 
-    console.log(decryptedPassword);
+    console.log('dec pass: ', decryptedPassword);
+    console.log(' pass: ', password);
 
     // Compare the decrypted password with the provided password
     if (decryptedPassword === password) {

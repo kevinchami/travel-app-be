@@ -14,5 +14,6 @@ router.delete('/delete/:userId', verifyToken, safe(userController.deleteUser));
 router.get('/:userId', safe(userController.getUser));
 router.put('/:userId/updateUserName', userController.updateUserName);
 router.put('/:userId/updatePicture', userController.updatePicture);
+router.put('/:userId/updatePassword', userController.updatePassword);
 
 export default router;
