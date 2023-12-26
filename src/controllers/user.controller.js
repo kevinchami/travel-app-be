@@ -1,6 +1,8 @@
 import { userService } from '../services/index.js';
 import CryptoJS from 'crypto-js';
 import jwt from 'jsonwebtoken';
+import { emailService } from '../services/index.js';
+import User from '../models/User.js';
 
 export const createUser = async (req, res) => {
   try {
@@ -40,6 +42,25 @@ export const getUser = async (req, res) => {
   } catch (error) {
     console.error('Error fetching user:', error.message);
     return res.status(500).json({ error: 'Failed to fetch user' });
+  }
+};
+
+export const getUserIdByEmail = async (req, res) => {
+  try {
+    const { email } = req.params;
+
+    // Find the user by email
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    // Return the user ID
+    res.status(200).json({ userId: user._id });
+  } catch (error) {
+    console.error('Error getting user ID by email:', error.message);
+    res.status(500).json({ error: 'Failed to get user ID by email' });
   }
 };
 
@@ -89,3 +110,74 @@ export const updatePassword = async (req, res) => {
     res.status(500).json({ error: 'Failed to update password' });
   }
 };
+/*
+export const updatePasswordByEmail = async (req, res) => {
+  try {
+    const { email } = req.params;
+    const { newPassword } = req.body;
+
+    // Assuming you have the userId associated with the email in your database
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    // Encrypt the password using CryptoJS
+    const encryptedPassword = CryptoJS.AES.encrypt(
+      newPassword,
+      process.env.SECRET,
+    ).toString();
+
+    const updatedUser = await userService.updatePassword(
+      user._id, // Assuming userId is stored in _id field
+      encryptedPassword,
+    );
+
+    res.status(200).json(updatedUser);
+  } catch (error) {
+    console.error('Error updating password by email:', error.message);
+    res.status(500).json({ error: 'Failed to update password' });
+  }
+};
+*/
+
+export const resetPassword = async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    // Assuming you generate the OTP somewhere in your application
+    const otp = generateOTP(4); // Implement your OTP generation logic
+
+    console.log('opt: ', otp);
+    // Encrypt the OTP using CryptoJS
+    const encryptedOTP = CryptoJS.AES.encrypt(
+      otp.toString(),
+      process.env.SECRET,
+    ).toString();
+
+    // Save the encrypted OTP in your database or any storage mechanism
+
+    // Send the OTP to the user's email
+    await emailService.sendResetPasswordOTP(email, otp);
+
+    res
+      .status(200)
+      .json({ message: 'Password reset OTP sent successfully', otp });
+  } catch (error) {
+    console.error('Error in resetPassword:', error.message);
+    res.status(500).json({ error: 'Failed to send password reset OTP' });
+  }
+};
+
+function generateOTP(length) {
+  const digits = '0123456789';
+  let OTP = '';
+
+  for (let i = 0; i < length; i++) {
+    const index = Math.floor(Math.random() * digits.length);
+    OTP += digits[index];
+  }
+
+  return OTP;
+}
