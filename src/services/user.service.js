@@ -33,6 +33,22 @@ export const getUser = async userId => {
   }
 };
 
+export const getUserIdByEmail = async email => {
+  try {
+    // Find the user by email
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    // Return the user ID
+    return user._id;
+  } catch (error) {
+    throw new Error('Failed to get user ID by email');
+  }
+};
+
 export const updateUserName = async (userId, newName) => {
   try {
     const user = await User.findByIdAndUpdate(
@@ -80,3 +96,26 @@ export const updatePassword = async (userId, newPassword) => {
     throw new Error('Failed to update password');
   }
 };
+
+/*
+export const updatePasswordWithEmail = async (email, newPassword) => {
+  try {
+    // Step 1: Find the user with the provided email
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    // Step 2: Update the user's password with the new password
+    user.password = newPassword;
+
+    // Step 3: Save the changes
+    const updatedUser = await user.save();
+
+    return updatedUser;
+  } catch (error) {
+    throw new Error('Failed to update password');
+  }
+};
+*/
