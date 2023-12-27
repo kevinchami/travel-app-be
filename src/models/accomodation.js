@@ -7,6 +7,7 @@ const AccomodationSchema = new Schema(
     description: { type: String, required: true },
     textHebrew: { type: Boolean, required: false, default: false },
     price: { type: Number, required: true },
+    guests: { type: Number, required: false },
     priceDetail: { type: String, required: false },
     priceShow: { type: Boolean, required: false, default: true },
     webUrl: { type: String, required: false },
