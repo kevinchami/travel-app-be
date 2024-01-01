@@ -6,6 +6,7 @@ const transporter = nodemailer.createTransport({
   auth: {
     user: 'que.pasa.travelapp@gmail.com',
     pass: process.env.EMAIL_TEST_APP_PSWD,
+    type: 'login',
   },
 });
 
