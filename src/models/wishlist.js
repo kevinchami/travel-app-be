@@ -6,7 +6,8 @@ import Activity from './activity.js';
 
 const WishlistSchema = new Schema(
   {
-    userId: { type: Schema.Types.ObjectId, required: true },
+    //userId: { type: Schema.Types.ObjectId, required: true },
+    userId: { type: String, required: true },
     itemId: {
       type: Schema.Types.ObjectId,
       //ref: 'Tour',

@@ -3,6 +3,8 @@ import nodemailer from 'nodemailer';
 
 const transporter = nodemailer.createTransport({
   service: 'gmail',
+  port: 465,
+  secure: true,
   auth: {
     user: 'que.pasa.travelapp@gmail.com',
     pass: process.env.EMAIL_TEST_APP_PSWD,

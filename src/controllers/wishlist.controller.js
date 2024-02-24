@@ -38,6 +38,8 @@ export const removeFromWishlist = async (req, res) => {
 export const getWishlist = async (req, res) => {
   const { userId } = req.params;
 
+  console.log('user id: ', userId);
+
   try {
     const wishlistItems = await wishlistService.getWishlist(userId);
     return res.status(200).json(wishlistItems);
