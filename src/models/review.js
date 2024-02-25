@@ -22,8 +22,9 @@ const reviewSchema = new Schema(
     review: { type: String, required: true },
     rating: { type: String, required: true },
     user: {
-      type: Schema.Types.ObjectId,
-      ref: 'User',
+      // type: Schema.Types.ObjectId,
+      type: String,
+      // ref: 'User',
     },
   },
   { timestamps: true },
