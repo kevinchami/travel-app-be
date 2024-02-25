@@ -1,6 +1,7 @@
 import Review from '../models/review.js';
 
 export const addReview = async reviewData => {
+  console.log('reviewData: ', reviewData);
   const { placeId, user } = reviewData;
 
   // Check if the user has already made a review for the same placeId
