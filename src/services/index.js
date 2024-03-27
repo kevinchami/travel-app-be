@@ -12,3 +12,4 @@ export * as memorialService from './memorial.service.js';
 export * as partyService from './party.service.js';
 export * as activityService from './activity.service.js';
 export * as emailService from './emailService.js';
+export * as driverService from './driver.service.js';
