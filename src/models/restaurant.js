@@ -25,6 +25,8 @@ const RestaurantSchema = new Schema(
       },
     ],
     location: { type: String, required: true },
+    neighborhood: { type: String, required: false },
+
     coordinates: {
       latitude: { type: Number, required: true },
       longitude: { type: Number, required: true },
