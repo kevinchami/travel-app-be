@@ -24,6 +24,7 @@ const ActivitySchema = new Schema(
       required: false,
     },
     location: { type: String, required: true },
+    neighborhood: { type: String, required: false },
     street: { type: String, required: false },
     city: {
       type: Schema.Types.ObjectId,
