@@ -32,6 +32,7 @@ const AccomodationSchema = new Schema(
       },
     ],
     location: { type: String, required: true },
+    neigborhood: { type: String, required: false },
     coordinates: {
       latitude: { type: Number, required: true },
       longitude: { type: Number, required: true },
