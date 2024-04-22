@@ -1,6 +1,6 @@
 import { Schema, model } from 'mongoose';
 
-const RestaurantSchema = new Schema(
+const CafeSchema = new Schema(
   {
     countryId: { type: String, required: false },
     name: { type: String, required: true },
@@ -9,12 +9,12 @@ const RestaurantSchema = new Schema(
     imageUrl: [{ type: String, required: true }],
     menuUrl: { type: String, required: true },
     mapsUrl: { type: String, required: true },
-    kosherBoolean: { type: Boolean, required: true, default: true },
-    bookingNeeded: { type: Boolean, required: true, default: true },
+    kosherBoolean: { type: Boolean, required: true },
+    bookingNeeded: { type: Boolean, required: false, default: false },
     priority: { type: Number, required: false },
     category: {
       type: String,
-      enum: ['temple', 'tour', 'restaurant', 'accommodation'],
+      enum: ['temple', 'tour', 'restaurant', 'accommodation', 'cafe'],
       required: false,
     },
     rating: { type: Number, required: false },
@@ -26,11 +26,6 @@ const RestaurantSchema = new Schema(
     ],
     location: { type: String, required: true },
     neighborhood: { type: String, required: false },
-
-    coordinates: {
-      latitude: { type: Number, required: true },
-      longitude: { type: Number, required: true },
-    },
     type: {
       type: String,
       required: true,
@@ -43,6 +38,6 @@ const RestaurantSchema = new Schema(
   { timestamps: true },
 );
 
-const Restaurant = model('Restaurant', RestaurantSchema);
+const Cafe = model('Cafe', CafeSchema);
 
-export default Restaurant;
+export default Cafe;

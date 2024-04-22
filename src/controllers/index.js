@@ -12,3 +12,4 @@ export * as memorialController from './memorial.controller.js';
 export * as partyController from './party.controller.js';
 export * as ActivityController from './activity.controller.js';
 export * as DriverController from './driver.controller.js';
+export * as cafeController from './cafe.controller.js';
