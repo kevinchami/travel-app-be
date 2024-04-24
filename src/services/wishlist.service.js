@@ -44,7 +44,7 @@ export const removeFromWishlist = async (userId, productId, category) => {
     console.log('====================================');
     return deletedItem;
   } catch (error) {
-    throw new Error('Failed to remove item from wishlist');
+    throw new Error('Failed to remove item from wishlist' + error);
   }
 };
 
