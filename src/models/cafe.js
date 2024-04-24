@@ -38,6 +38,6 @@ const CafeSchema = new Schema(
   { timestamps: true },
 );
 
-const Cafe = model('Cafe', CafeSchema);
+const Cafe = model('Cafe', CafeSchema, 'cafes');
 
 export default Cafe;
