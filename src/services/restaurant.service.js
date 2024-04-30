@@ -4,7 +4,6 @@ import Restaurant from '../models/restaurant.js';
 
 // Add new restaurant
 export const addRestaurant = async restaurantData => {
-  console.log('hi');
   const restaurant = await Restaurant.create(restaurantData);
   if (!restaurant) {
     throw new Error('Failed to add restaurant');
@@ -62,10 +61,33 @@ export const updateRestaurant = async (restaurantId, updatedData) => {
 };
 
 // Get distinct types for filtering
+/*
 export const getDistinctTypes = async () => {
   const distinctTypes = await Restaurant.distinct('type');
   if (!distinctTypes) {
     throw new Error('Failed to fetch distinct types');
   }
   return distinctTypes;
+};
+*/
+
+export const getDistinctTypes = async () => {
+  try {
+    const rawTypes = await Restaurant.distinct('type');
+    if (!rawTypes) {
+      throw new Error('Failed to fetch distinct types');
+    }
+    // Split each type string into individual types and flatten the array
+    const splitTypes = rawTypes.reduce((acc, typeString) => {
+      // Split by comma and trim whitespace, then add to accumulator array
+      return acc.concat(typeString.split(',').map(type => type.trim()));
+    }, []);
+
+    // Remove duplicates by converting to a Set and back to an array
+    const distinctTypes = Array.from(new Set(splitTypes));
+    return distinctTypes;
+  } catch (error) {
+    console.error('Error fetching distinct types:', error);
+    throw new Error(error.message);
+  }
 };
