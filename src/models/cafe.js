@@ -4,10 +4,11 @@ const CafeSchema = new Schema(
   {
     countryId: { type: String, required: false },
     name: { type: String, required: true },
-    contact: { type: Number, required: true },
+    contact: { type: Number, required: false },
     textHebrew: { type: Boolean, required: false, default: false },
     imageUrl: [{ type: String, required: true }],
     menuUrl: { type: String, required: true },
+    personalOpinion: { type: String, required: false },
     mapsUrl: { type: String, required: true },
     kosherBoolean: { type: Boolean, required: true },
     bookingNeeded: { type: Boolean, required: false, default: false },

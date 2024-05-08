@@ -9,7 +9,7 @@ const TourSchema = new Schema(
     price: { type: Number, required: false },
     priceDetail: [{ type: String, required: true }],
     durationDetail: [{ type: String, required: false }],
-    contact: { type: Number, required: true },
+    contact: { type: Number, required: false },
     imageUrl: [{ type: String, required: true }],
     rating: { type: Number, required: true },
     review: { type: String, required: true },
