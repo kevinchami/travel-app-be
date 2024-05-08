@@ -9,7 +9,7 @@ const ActivitySchema = new Schema(
     price: { type: Number, required: false },
     priceDetail: [{ type: String, required: true }],
     durationDetail: [{ type: String, required: false }],
-    contact: { type: Number, required: true },
+    contact: { type: Number, required: false },
     imageUrl: [{ type: String, required: true }],
     priority: { type: Number, required: false },
     webUrl: { type: String, required: true },

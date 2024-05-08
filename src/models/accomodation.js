@@ -12,7 +12,7 @@ const AccomodationSchema = new Schema(
     priceShow: { type: Boolean, required: false, default: true },
     webUrl: { type: String, required: false },
     mapsUrl: { type: String, required: false },
-    contact: { type: Number, required: true },
+    contact: { type: Number, required: false },
     imageUrl: [{ type: String, required: true }],
     priority: { type: Number, required: false },
     languages: {

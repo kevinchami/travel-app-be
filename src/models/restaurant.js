@@ -4,13 +4,14 @@ const RestaurantSchema = new Schema(
   {
     countryId: { type: String, required: false },
     name: { type: String, required: true },
-    contact: { type: Number, required: true },
+    contact: { type: Number, required: false },
     textHebrew: { type: Boolean, required: false, default: false },
     imageUrl: [{ type: String, required: true }],
-    menuUrl: { type: String, required: true },
-    mapsUrl: { type: String, required: true },
+    menuUrl: { type: String, required: false },
+    personalOpinion: { type: String, required: false },
+    mapsUrl: { type: String, required: false },
     kosherBoolean: { type: Boolean, required: true, default: true },
-    bookingNeeded: { type: Boolean, required: true, default: true },
+    bookingNeeded: { type: Boolean, required: false, default: true },
     priority: { type: Number, required: false },
     category: {
       type: String,

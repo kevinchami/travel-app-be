@@ -4,7 +4,7 @@ const PartySchema = new Schema(
   {
     countryId: { type: String, required: false },
     name: { type: String, required: true },
-    contact: { type: Number, required: true },
+    contact: { type: Number, required: false },
     imageUrl: [{ type: String, required: true }],
     location: { type: String, required: true },
     neighborhood: { type: String, required: false },
