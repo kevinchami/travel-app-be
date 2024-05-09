@@ -62,6 +62,7 @@ export const getWishlist = async userId => {
 export const getWishlistItemsByCategory = async (userId, category) => {
   try {
     const wishlistItems = await Wishlist.find({ userId, category });
+    console.log(wishlistItems);
     return wishlistItems;
   } catch (error) {
     throw new Error('Failed to get wishlist items by category');

@@ -7,6 +7,7 @@ const CafeSchema = new Schema(
     contact: { type: Number, required: false },
     textHebrew: { type: Boolean, required: false, default: false },
     imageUrl: [{ type: String, required: true }],
+    isCoffee: { type: Boolean, required: true },
     menuUrl: { type: String, required: true },
     personalOpinion: { type: String, required: false },
     mapsUrl: { type: String, required: true },

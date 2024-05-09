@@ -3,6 +3,7 @@ import Tour from './tour.js';
 import Accommodation from './accomodation.js';
 import Restaurant from './restaurant.js';
 import Activity from './activity.js';
+import Cafe from './cafe.js';
 
 const WishlistSchema = new Schema(
   {
@@ -37,6 +38,8 @@ function getModelByCategory(category) {
       return Restaurant;
     case 'activity':
       return Activity;
+    case 'cafe':
+      return Cafe;
     default:
       return null;
   }
