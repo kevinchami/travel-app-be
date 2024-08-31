@@ -13,22 +13,22 @@ const app = express();
 
 /* 
 Middlewares: every time you see "app.use" we are including a new
-middleware to the express server, you can read more about middle wares here:
-https://developer.okta.com/blog/2018/09/13/build-and-understand-express-middleware-through-examples
+middleware to the express server.
 */
 app.use(
   cors({
-    // TODO check!!!!
-    origin: 'https://travel-app-be.onrender.com',
-    // other options as needed
+    origin: ['https://travel-app-be.onrender.com', 'http://localhost:5173'], // Permitir ambos orígenes
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true, // Permitir cookies y credenciales si es necesario
   }),
-); //disable CORS validations
+);
+
 app.use(express.urlencoded({ extended: true }));
 app.use((req, res, next) => {
   express.json({ limit: '50mb' })(req, res, next);
 });
 
-app.use(morgan('dev')); //logging
+app.use(morgan('dev')); // logging
 
 // import the routes from the ./routes/index.ts file
 app.use(apiRouter);

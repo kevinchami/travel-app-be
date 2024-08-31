@@ -5,7 +5,7 @@ import { Schema, model } from 'mongoose';
 const DriverSchema = new Schema(
   {
     name: { type: String, required: true },
-    contact: { type: Number, required: false },
+    contact: { type: Number, required: true },
     imageUrl: { type: String, required: false },
     vehicleType: {
       type: String,

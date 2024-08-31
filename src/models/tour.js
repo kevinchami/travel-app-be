@@ -7,12 +7,12 @@ const TourSchema = new Schema(
     description: { type: String, required: true },
     textHebrew: { type: Boolean, required: false, default: false },
     price: { type: Number, required: false },
-    priceDetail: [{ type: String, required: true }],
+    priceDetail: [{ type: String, required: false }],
     durationDetail: [{ type: String, required: false }],
     contact: { type: Number, required: false },
     imageUrl: [{ type: String, required: true }],
-    rating: { type: Number, required: true },
-    review: { type: String, required: true },
+    rating: { type: Number, required: false },
+    review: { type: String, required: false },
     priority: { type: Number, required: false },
     reviews: [
       {
