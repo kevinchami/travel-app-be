@@ -27,11 +27,6 @@ const RestaurantSchema = new Schema(
     ],
     location: { type: String, required: true },
     neighborhood: { type: String, required: false },
-
-    coordinates: {
-      latitude: { type: Number, required: true },
-      longitude: { type: Number, required: true },
-    },
     type: {
       type: String,
       required: true,
@@ -43,6 +38,12 @@ const RestaurantSchema = new Schema(
   },
   { timestamps: true },
 );
+
+// Adding indexes for optimization
+RestaurantSchema.index({ city: 1 });
+RestaurantSchema.index({ type: 1 });
+RestaurantSchema.index({ name: 1 });
+RestaurantSchema.index({ rating: -1 });
 
 const Restaurant = model('Restaurant', RestaurantSchema);
 

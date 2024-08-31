@@ -8,17 +8,13 @@ const TempleSchema = new Schema(
     imageUrl: [{ type: String, required: true }],
     location: { type: String, required: true },
     neighborhood: { type: String, required: false },
-    mapsUrl: { type: String, required: true },
+    mapsUrl: { type: String, required: false },
     shabbatfood: { type: Boolean, required: false },
     priority: { type: Number, required: false },
     category: {
       type: String,
       enum: ['temple', 'tour', 'restaurant', 'accommodation'],
       required: false,
-    },
-    coordinates: {
-      latitude: { type: Number, required: true },
-      longitude: { type: Number, required: true },
     },
     type: {
       type: String,

@@ -12,7 +12,7 @@ const ActivitySchema = new Schema(
     contact: { type: Number, required: false },
     imageUrl: [{ type: String, required: true }],
     priority: { type: Number, required: false },
-    webUrl: { type: String, required: true },
+    webUrl: { type: String, required: false },
     reviews: [
       {
         type: Schema.Types.ObjectId,
