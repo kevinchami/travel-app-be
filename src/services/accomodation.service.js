@@ -60,7 +60,7 @@ export const getAccommodationsByCity = async cityId => {
 };
 
 export const removeAccommodationById = async accommodationId => {
-  const result = await Accommodation.findByIdAndRemove(accommodationId);
+  const result = await Accommodation.findByIdAndDelete(accommodationId);
   return result;
 };
 
