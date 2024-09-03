@@ -35,7 +35,7 @@ const AccomodationSchema = new Schema(
     neighborhood: { type: String, required: false },
     type: {
       type: String,
-      enum: ['apartment', 'hotel', 'hostel'],
+      enum: ['apartment', 'hotel', 'hostel', 'Apartment', 'Hotel', 'Hostel'],
       required: true,
     },
     city: {
