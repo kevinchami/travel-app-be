@@ -40,7 +40,7 @@ export const getTemplesByCity = async cityId => {
 
 // Remove temple by ID
 export const removeTempleById = async templeId => {
-  const result = await Temple.findByIdAndRemove(templeId);
+  const result = await Temple.findByIdAndDelete(templeId);
   if (!result) {
     throw new Error('Failed to remove temple');
   }

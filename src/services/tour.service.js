@@ -33,7 +33,7 @@ export const getTourById = async tourId => {
 
 // Remove a tour by ID
 export const removeTourById = async tourId => {
-  const result = await Tour.findByIdAndRemove(tourId);
+  const result = await Tour.findByIdAndDelete(tourId);
   if (!result) {
     throw new Error('Failed to remove tour');
   }

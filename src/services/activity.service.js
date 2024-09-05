@@ -28,7 +28,7 @@ export const getActivityById = async activityId => {
 
 // Remove an activity by ID
 export const removeActivityById = async activityId => {
-  const result = await Activity.findByIdAndRemove(activityId);
+  const result = await Activity.findByIdAndDelete(activityId);
   if (!result) {
     throw new Error('Failed to remove activity');
   }

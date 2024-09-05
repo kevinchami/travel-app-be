@@ -33,7 +33,7 @@ export const getPartiesByCity = async cityId => {
 };
 
 export const removePartyById = async partyId => {
-  const result = await Party.findByIdAndRemove(partyId);
+  const result = await Party.findByIdAndDelete(partyId);
   if (!result) {
     throw new Error('Failed to remove party');
   }
