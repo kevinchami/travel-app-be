@@ -17,7 +17,11 @@ middleware to the express server.
 */
 app.use(
   cors({
-    origin: ['https://travel-app-be.onrender.com', 'http://localhost:5173'], // Permitir ambos orígenes
+    origin: [
+      'https://travel-app-be.onrender.com',
+      'http://localhost:5173',
+      'https://dashboard-latiul.vercel.app',
+    ], // Permitir ambos orígenes
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true, // Permitir cookies y credenciales si es necesario
   }),
