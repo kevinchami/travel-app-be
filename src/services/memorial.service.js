@@ -21,7 +21,7 @@ export const getPeople = async () => {
 // Remove person (Newly added function)
 export const removePerson = async personId => {
   try {
-    const removedPerson = await Memorial.findByIdAndRemove(personId);
+    const removedPerson = await Memorial.findByIdAndDelete(personId);
     if (!removedPerson) {
       throw new Error('Person not found');
     }

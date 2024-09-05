@@ -12,7 +12,7 @@ export const getUsers = async () => {
 
 export const deleteUser = async userId => {
   try {
-    const result = await User.findByIdAndRemove(userId);
+    const result = await User.findByIdAndDelete(userId);
     if (!result) {
       throw new Error('User not found');
     }

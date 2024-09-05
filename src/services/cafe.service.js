@@ -40,7 +40,7 @@ export const getCafesByCity = async cityId => {
 
 // Remove cafe by ID
 export const removeCafeById = async cafeId => {
-  const result = await Cafe.findByIdAndRemove(cafeId);
+  const result = await Cafe.findByIdAndDelete(cafeId);
   if (!result) {
     throw new Error('Failed to remove cafe');
   }

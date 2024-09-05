@@ -27,7 +27,7 @@ export const getDriverById = async driverId => {
 };
 
 export const removeDriverById = async driverId => {
-  const result = await Driver.findByIdAndRemove(driverId);
+  const result = await Driver.findByIdAndDelete(driverId);
   if (!result) {
     throw new Error('Failed to remove driver');
   }
