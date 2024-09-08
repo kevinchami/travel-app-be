@@ -8,11 +8,6 @@ const DriverSchema = new Schema(
     name: { type: String, required: true },
     contact: { type: Number, required: true },
     imageUrl: { type: String, required: false },
-    vehicleType: {
-      type: String,
-      enum: ['car', 'motorcycle', 'bicycle'],
-      required: false,
-    },
     price: { type: Number, required: false },
     priceShow: { type: Boolean, required: false, default: false },
     licensePlate: { type: String, required: false },
