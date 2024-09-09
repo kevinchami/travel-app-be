@@ -7,7 +7,7 @@ const DriverSchema = new Schema(
     countryId: { type: String, required: false },
     name: { type: String, required: true },
     contact: { type: Number, required: true },
-    imageUrl: { type: String, required: false },
+    imageUrl: [{ type: String, required: true }],
     price: { type: Number, required: false },
     priceShow: { type: Boolean, required: false, default: false },
     licensePlate: { type: String, required: false },
