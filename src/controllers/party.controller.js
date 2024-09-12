@@ -34,3 +34,16 @@ export const updateParty = async (req, res) => {
   const updatedParty = await partyService.updateParty(partyId, updatedData);
   return res.status(200).json(updatedParty);
 };
+
+export const getHighlightedPartyByCountry = async (req, res) => {
+  const { countryName } = req.params;
+
+  try {
+    const tours =
+      await partyService.getHighlightedPartiesByCountry(countryName);
+    return res.status(200).json(tours);
+  } catch (error) {
+    console.error('Error fetching highlighted parties by country:', error);
+    return res.status(500).json({ error: 'Internal Server Error' });
+  }
+};

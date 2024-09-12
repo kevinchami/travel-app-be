@@ -16,4 +16,9 @@ router.delete('/removeparty/:partyId', safe(partyController.removePartyById));
 
 router.put('/updateparty/:partyId', safe(partyController.updateParty));
 
+router.get(
+  '/gethighlightedpartiesbycountry/:countryName',
+  safe(partyController.getHighlightedPartyByCountry),
+);
+
 export default router;

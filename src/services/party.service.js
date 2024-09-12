@@ -1,3 +1,4 @@
+import Country from '../models/country.js';
 import Party from '../models/party.js';
 
 export const addParty = async partyData => {
@@ -48,4 +49,19 @@ export const updateParty = async (partyId, updatedData) => {
     throw new Error('Party not found');
   }
   return updatedParty;
+};
+
+export const getHighlightedPartiesByCountry = async countryName => {
+  const country = await Country.findOne({ name: countryName });
+
+  if (!country) {
+    throw new Error('Country not found');
+  }
+
+  const parties = await Party.find({
+    countryId: country._id.toString(), // Asegúrate de que la comparación sea con un String
+    highlighted: true,
+  }).sort({ priority: 1 });
+
+  return parties;
 };
