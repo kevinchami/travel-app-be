@@ -21,7 +21,7 @@ router.put('/updatetour/:tourId', safe(tourController.updateTour));
 router.get('/gettoursbycity/:cityId', safe(tourController.getToursByCity));
 
 router.get(
-  '/gethighlightedrestaurantsbycountry/:countryName',
+  '/gethighlightedtoursbycountry/:countryName',
   safe(tourController.getHighlightedTourByCountry),
 );
 
