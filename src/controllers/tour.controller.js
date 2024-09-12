@@ -68,3 +68,15 @@ export const getToursByCity = async (req, res) => {
     throw new Error('Failed to fetch tours by city');
   }
 };
+
+export const getHighlightedTourByCountry = async (req, res) => {
+  const { countryName } = req.params;
+
+  try {
+    const tours = await tourService.getHighlightedToursByCountry(countryName);
+    return res.status(200).json(tours);
+  } catch (error) {
+    console.error('Error fetching highlighted restaurants by country:', error);
+    return res.status(500).json({ error: 'Internal Server Error' });
+  }
+};

@@ -1,5 +1,6 @@
 // services/restaurantService.js
 
+import Country from '../models/country.js';
 import Restaurant from '../models/restaurant.js';
 
 // Add new restaurant
@@ -14,6 +15,7 @@ export const addRestaurant = async restaurantData => {
 // Get all restaurants
 export const getRestaurants = async () => {
   const restaurants = await Restaurant.find();
+
   if (!restaurants) {
     throw new Error('Failed to fetch restaurants');
   }
@@ -90,4 +92,19 @@ export const getDistinctTypes = async () => {
     console.error('Error fetching distinct types:', error);
     throw new Error(error.message);
   }
+};
+
+export const getHighlightedRestaurantsByCountry = async countryName => {
+  const country = await Country.findOne({ name: countryName });
+
+  if (!country) {
+    throw new Error('Country not found');
+  }
+
+  const restaurants = await Restaurant.find({
+    countryId: country._id.toString(), // Asegúrate de que la comparación sea con un String
+    highlighted: true,
+  }).sort({ priority: 1 });
+
+  return restaurants;
 };

@@ -14,6 +14,7 @@ const CafeSchema = new Schema(
     kosherBoolean: { type: Boolean, required: true },
     bookingNeeded: { type: Boolean, required: false, default: false },
     priority: { type: Number, required: false },
+    highlighted: { type: Boolean, required: false, default: false },
     category: {
       type: String,
       enum: ['temple', 'tour', 'restaurant', 'accommodation', 'cafe'],

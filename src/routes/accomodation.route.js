@@ -39,4 +39,9 @@ router.get(
   accommodationController.filterAccommodationsByCountry,
 );
 
+router.get(
+  '/gethighlightedaccommodations/:countryName',
+  safe(accommodationController.filterHighlightAccommodationsByCountry),
+);
+
 export default router;
