@@ -56,3 +56,16 @@ export const getDistinctTypes = async (req, res) => {
     return res.status(500).json({ error: 'Internal Server Error' });
   }
 };
+
+export const getHighlightedRestaurantsByCountry = async (req, res) => {
+  const { countryName } = req.params;
+
+  try {
+    const restaurants =
+      await restaurantService.getHighlightedRestaurantsByCountry(countryName);
+    return res.status(200).json(restaurants);
+  } catch (error) {
+    console.error('Error fetching highlighted restaurants by country:', error);
+    return res.status(500).json({ error: 'Internal Server Error' });
+  }
+};

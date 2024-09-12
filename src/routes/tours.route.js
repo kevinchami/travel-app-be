@@ -20,4 +20,9 @@ router.put('/updatetour/:tourId', safe(tourController.updateTour));
 
 router.get('/gettoursbycity/:cityId', safe(tourController.getToursByCity));
 
+router.get(
+  '/gethighlightedrestaurantsbycountry/:countryName',
+  safe(tourController.getHighlightedTourByCountry),
+);
+
 export default router;

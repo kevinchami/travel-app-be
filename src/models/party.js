@@ -11,6 +11,7 @@ const PartySchema = new Schema(
     mapsUrl: { type: String, required: true },
     webUrl: { type: String, required: true },
     priority: { type: Number, required: false },
+    highlighted: { type: Boolean, required: false, default: false },
     street: { type: String, required: true },
     category: {
       type: String,

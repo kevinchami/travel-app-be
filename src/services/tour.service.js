@@ -1,5 +1,6 @@
 // services/tourService.js
 
+import Country from '../models/country.js';
 import Tour from '../models/tour.js';
 
 // Add a tour
@@ -57,5 +58,20 @@ export const getToursByCity = async cityId => {
   if (!tours) {
     throw new Error('Failed to fetch tours by city');
   }
+  return tours;
+};
+
+export const getHighlightedToursByCountry = async countryName => {
+  const country = await Country.findOne({ name: countryName });
+
+  if (!country) {
+    throw new Error('Country not found');
+  }
+
+  const tours = await Tour.find({
+    countryId: country._id.toString(), // Asegúrate de que la comparación sea con un String
+    highlighted: true,
+  }).sort({ priority: 1 });
+
   return tours;
 };

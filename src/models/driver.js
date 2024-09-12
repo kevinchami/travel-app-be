@@ -13,6 +13,8 @@ const DriverSchema = new Schema(
     licensePlate: { type: String, required: false },
     availability: { type: Boolean, required: false },
     verificated: { type: Boolean, required: false },
+    priority: { type: Number, required: false },
+    highlighted: { type: Boolean, required: false, default: false },
     languages: {
       type: [String],
       required: false,

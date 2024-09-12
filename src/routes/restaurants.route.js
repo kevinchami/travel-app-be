@@ -31,4 +31,9 @@ router.put(
 // Add a new route to get distinct types for filtering
 router.get('/getdistincttypes', safe(restaurantController.getDistinctTypes));
 
+router.get(
+  '/gethighlightedrestaurantsbycountry/:countryName',
+  safe(restaurantController.getHighlightedRestaurantsByCountry),
+);
+
 export default router;

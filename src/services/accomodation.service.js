@@ -87,3 +87,19 @@ export const filterAccommodationsByCountry = async countryName => {
 
   return accommodations;
 };
+
+export const filterHighlightAccommodationsByCountry = async countryName => {
+  const country = await Country.findOne({ name: countryName });
+
+  if (!country) {
+    return [];
+  }
+
+  // Filtrar por countryId y highlighted, y ordenar por priority
+  const accommodations = await Accommodation.find({
+    countryId: country._id,
+    highlighted: true, // Filtrar por alojamientos destacados
+  }).sort({ priority: 1 }); // Ordenar por priority en orden ascendente (1) o descendente (-1)
+
+  return accommodations;
+};

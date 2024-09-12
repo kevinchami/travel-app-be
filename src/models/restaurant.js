@@ -13,6 +13,7 @@ const RestaurantSchema = new Schema(
     kosherBoolean: { type: Boolean, required: true, default: true },
     bookingNeeded: { type: Boolean, required: false, default: true },
     priority: { type: Number, required: false },
+    highlighted: { type: Boolean, required: false, default: false },
     category: {
       type: String,
       enum: ['temple', 'tour', 'restaurant', 'accommodation'],

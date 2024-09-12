@@ -14,6 +14,7 @@ const TourSchema = new Schema(
     rating: { type: Number, required: false },
     review: { type: String, required: false },
     priority: { type: Number, required: false },
+    highlighted: { type: Boolean, required: false, default: false },
     reviews: [
       {
         type: Schema.Types.ObjectId,
