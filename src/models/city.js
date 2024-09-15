@@ -27,6 +27,7 @@ const citySchema = new Schema(
   {
     name: { type: String, required: true },
     description: { type: String, required: true },
+    available: { type: Boolean, required: false },
     tours: [{ type: Schema.Types.ObjectId, ref: 'Tour' }],
     temples: [{ type: Schema.Types.ObjectId, ref: 'Temple' }],
     restaurants: [{ type: Schema.Types.ObjectId, ref: 'Restaurant' }],
