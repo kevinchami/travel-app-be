@@ -1,10 +1,14 @@
 import Country from '../models/country.js';
 
 export const getCountries = async () => {
-  const countries = await Country.find().populate({
-    path: 'cities',
-    select: 'name description',
-  });
+  // Agregamos .sort para ordenar por 'priority'
+  const countries = await Country.find()
+    .populate({
+      path: 'cities',
+      select: 'name description',
+    })
+    .sort({ priority: 1 }); // 1 para orden ascendente, -1 para descendente
+
   return countries;
 };
 
