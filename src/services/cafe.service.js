@@ -4,6 +4,7 @@ import Cafe from '../models/cafe.js'; // Ensure the Cafe model exists in your mo
 
 // Add new cafe
 export const addCafe = async cafeData => {
+  debugger;
   const cafe = await Cafe.create(cafeData);
   if (!cafe) {
     throw new Error('Failed to add cafe');
