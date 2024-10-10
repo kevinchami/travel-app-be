@@ -12,7 +12,7 @@ const MustSchema = new Schema(
     imageUrl: [{ type: String, required: false }],
     mapsUrl: { type: String, required: false },
     kosherBoolean: { type: Boolean, required: false },
-    showKosher: { type: Boolean, required: true },
+    showKosher: { type: Boolean, required: true, default: false },
     bookingNeeded: { type: Boolean, required: false, default: false },
     price: { type: Number, required: false },
     priority: { type: Number, required: false },
