@@ -1,0 +1,60 @@
+// services/mustService.js
+
+import Must from '../models/must.js';
+
+export const addMust = async mustData => {
+  const must = await Must.create(mustData);
+  if (!must) {
+    throw new Error('Failed to add must');
+  }
+  return must;
+};
+
+export const getMusts = async () => {
+  const musts = await Must.find();
+  if (!musts) {
+    throw new Error('Failed to fetch musts');
+  }
+  return musts;
+};
+
+export const getMustById = async mustId => {
+  const must = await Must.findById(mustId);
+  if (!must) {
+    throw new Error('Must not found');
+  }
+  return must;
+};
+
+export const removeMustById = async mustId => {
+  const result = await Must.findByIdAndDelete(mustId);
+  if (!result) {
+    throw new Error('Failed to remove must');
+  }
+};
+
+export const getMustsByCountry = async countryId => {
+    const musts = await Must.find({ countryId: countryId });
+    if (!musts) {
+      throw new Error('Failed to fetch musts by country');
+    }
+    return musts;
+  };
+
+export const getMustsByCity = async cityId => {
+  const musts = await Must.find({ city: cityId });
+  if (!musts) {
+    throw new Error('Failed to fetch musts by city');
+  }
+  return musts;
+};
+
+export const updateMust = async (mustId, updatedData) => {
+  const updatedMust = await Must.findByIdAndUpdate(mustId, updatedData, {
+    new: true,
+  });
+  if (!updatedMust) {
+    throw new Error('Must not found');
+  }
+  return updatedMust;
+};
