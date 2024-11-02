@@ -18,6 +18,8 @@ router.put('/updatemust/:mustId', safe(mustController.updateMust));
 
 router.get('/getmustsbycity/:cityId', safe(mustController.getMustsByCity));
 
+router.get('/getdistincttypes', safe(mustController.getDistinctTypes));
+
 // Nueva ruta para obtener musts por country
 router.get('/getmustsbycountry/:countryId', safe(mustController.getMustsByCountry));
 

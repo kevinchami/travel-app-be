@@ -34,12 +34,12 @@ export const removeMustById = async mustId => {
 };
 
 export const getMustsByCountry = async countryId => {
-    const musts = await Must.find({ countryId: countryId });
-    if (!musts) {
-      throw new Error('Failed to fetch musts by country');
-    }
-    return musts;
-  };
+  const musts = await Must.find({ countryId: countryId });
+  if (!musts) {
+    throw new Error('Failed to fetch musts by country');
+  }
+  return musts;
+};
 
 export const getMustsByCity = async cityId => {
   const musts = await Must.find({ city: cityId });
@@ -57,4 +57,28 @@ export const updateMust = async (mustId, updatedData) => {
     throw new Error('Must not found');
   }
   return updatedMust;
+};
+
+export const getDistinctTypes = async countryId => {
+  try {
+    // Filtrar por `countryId` si se proporciona
+    const filter = countryId ? { countryId } : {};
+
+    // Obtener los tipos de categoría distintos basados en el filtro
+    const rawTypes = await Must.distinct('category', filter);
+    if (!rawTypes) {
+      throw new Error('Failed to fetch distinct types');
+    }
+
+    // Dividir y limpiar los tipos, y remover duplicados
+    const splitTypes = rawTypes.reduce((acc, typeString) => {
+      return acc.concat(typeString.split(',').map(type => type.trim()));
+    }, []);
+    const distinctTypes = Array.from(new Set(splitTypes));
+
+    return distinctTypes;
+  } catch (error) {
+    console.error('Error fetching distinct types:', error);
+    throw new Error(error.message);
+  }
 };
