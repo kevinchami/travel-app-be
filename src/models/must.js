@@ -10,11 +10,12 @@ const MustSchema = new Schema(
     location: { type: String, required: false },
     contact: { type: Number, required: false },
     imageUrl: [{ type: String, required: false }],
+    hours: { type: String, required: false },
+    category: { type: String, required: false },
     mapsUrl: { type: String, required: false },
     kosherBoolean: { type: Boolean, required: false },
     showKosher: { type: Boolean, required: true, default: false },
     bookingNeeded: { type: Boolean, required: false, default: false },
-    price: { type: Number, required: false },
     priority: { type: Number, required: false },
     highlighted: { type: Boolean, required: false, default: false },
     languages: {
