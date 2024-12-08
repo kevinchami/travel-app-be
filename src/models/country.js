@@ -5,6 +5,7 @@ const countrySchema = new Schema(
   {
     name: { type: String, required: true },
     description: { type: String, required: true },
+    mapUrl: {type: String, required: false},
     priority: { type: Number, required: false },
     available: { type: Boolean, required: false },
     flagUrl: { type: String, required: false },
