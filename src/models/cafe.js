@@ -20,6 +20,10 @@ const CafeSchema = new Schema(
       enum: ['temple', 'tour', 'restaurant', 'accommodation', 'cafe'],
       required: false,
     },
+    coordinates: {
+      latitude: { type: Number, required: false },
+      longitude: { type: Number, required: false },
+    },
     rating: { type: Number, required: false },
     reviews: [
       {
