@@ -38,6 +38,10 @@ const citySchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: 'Country',
     },
+    coordinates: {
+      latitude: { type: Number, required: false },
+      longitude: { type: Number, required: false },
+    },
   },
   { timestamps: true },
 );
