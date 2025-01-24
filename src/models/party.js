@@ -26,6 +26,10 @@ const PartySchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: 'City',
     },
+    coordinates: {
+      latitude: { type: Number, required: false },
+      longitude: { type: Number, required: false },
+    },
   },
   { timestamps: true },
 );

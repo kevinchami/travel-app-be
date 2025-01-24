@@ -25,6 +25,10 @@ const TempleSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: 'City',
     },
+    coordinates: {
+      latitude: { type: Number, required: false },
+      longitude: { type: Number, required: false },
+    },
     specifications: [
       {
         shabbatmeal: { type: Boolean, required: false },

@@ -15,3 +15,4 @@ export * as emailService from './emailService.js';
 export * as driverService from './driver.service.js';
 export * as cafeService from './cafe.service.js';
 export * as mustService from './must.service.js';
+export * as placeService from './nearby.service.js';
