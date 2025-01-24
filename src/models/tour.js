@@ -33,6 +33,10 @@ const TourSchema = new Schema(
       ref: 'City',
       required: true,
     },
+    coordinates: {
+      latitude: { type: Number, required: false },
+      longitude: { type: Number, required: false },
+    },
     languages: {
       type: [String],
       required: true,

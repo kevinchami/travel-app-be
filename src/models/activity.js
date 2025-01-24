@@ -36,6 +36,10 @@ const ActivitySchema = new Schema(
       type: [String],
       required: false,
     },
+    coordinates: {
+      latitude: { type: Number, required: false },
+      longitude: { type: Number, required: false },
+    },
   },
   { timestamps: true },
 );
