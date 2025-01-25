@@ -20,7 +20,13 @@ const modelMapping = {
   activity: Activity,
 };
 
-export const getNearbyPlaces = async ({ latitude, longitude, maxDistance = 5, types }) => {
+export const getNearbyPlaces = async ({
+  latitude,
+  longitude,
+  maxDistance = 5,
+  types,
+  filters = {},
+}) => {
   const haversine = (lat1, lon1, lat2, lon2) => {
     const R = 6371; // Radio de la Tierra en km
     const dLat = ((lat2 - lat1) * Math.PI) / 180;
@@ -28,18 +34,17 @@ export const getNearbyPlaces = async ({ latitude, longitude, maxDistance = 5, ty
     const a =
       Math.sin(dLat / 2) * Math.sin(dLat / 2) +
       Math.cos((lat1 * Math.PI) / 180) *
-      Math.cos((lat2 * Math.PI) / 180) *
-      Math.sin(dLon / 2) *
-      Math.sin(dLon / 2);
+        Math.cos((lat2 * Math.PI) / 180) *
+        Math.sin(dLon / 2) *
+        Math.sin(dLon / 2);
     return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   };
 
-  // Validar tipos y obtener modelos
   if (!Array.isArray(types) || types.length === 0) {
     throw new Error('At least one valid type must be provided.');
   }
 
-  const models = types.map((type) => {
+  const models = types.map(type => {
     const Model = modelMapping[type];
     if (!Model) {
       throw new Error(`Invalid type: ${type}`);
@@ -47,28 +52,29 @@ export const getNearbyPlaces = async ({ latitude, longitude, maxDistance = 5, ty
     return Model;
   });
 
-  // Buscar lugares y combinar resultados
   let allPlaces = [];
   for (const Model of models) {
-    const places = await Model.find(); // Obtener lugares de cada modelo
+    const places = await Model.find(filters); // Aplicar filtros adicionales
     allPlaces = allPlaces.concat(
-      places.map((place) => {
+      places.map(place => {
         const distance = haversine(
           latitude,
           longitude,
           place.coordinates.latitude,
-          place.coordinates.longitude
+          place.coordinates.longitude,
         );
-        return { ...place.toObject(), distance, type: Model.modelName }; // Agregar distancia y tipo
-      })
+        return { ...place.toObject(), distance };
+      }),
     );
   }
 
-  // Filtrar, ordenar y limitar los resultados
   const nearbyPlaces = allPlaces
-    .filter((place) => place.distance <= maxDistance) // Filtrar por distancia
-    .sort((a, b) => a.distance - b.distance) // Ordenar por distancia ascendente
-    .slice(0, 10); // Limitar a los 10 más cercanos
-
+    .filter(place => place.distance <= maxDistance) // Filtrar por distancia
+    .sort((a, b) => a.distance - b.distance) // Ordenar por distancia
+    .slice(0, 20);
   return nearbyPlaces;
+};
+
+export const getNearbyKosherPlaces = async params => {
+  return getNearbyPlaces({ ...params, filters: { kosherBoolean: true } });
 };
