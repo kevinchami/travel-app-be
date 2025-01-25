@@ -4,6 +4,7 @@ import { safe } from '../utils/error-handling.js';
 
 const router = express.Router();
 
-router.post('/nearby', safe(placeController.getNearbyPlaces));
+router.post('/', safe(placeController.getNearbyPlaces));
+router.post('/kosher', safe(placeController.getKosherNearbyPlaces));
 
 export default router;
