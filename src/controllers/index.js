@@ -15,3 +15,4 @@ export * as DriverController from './driver.controller.js';
 export * as cafeController from './cafe.controller.js';
 export * as mustController from './must.controller.js'
 export * as placeController from './nearby.controller.js';
+export * as featureController from './featureFlag.controller.js'
