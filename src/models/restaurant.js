@@ -14,6 +14,7 @@ const RestaurantSchema = new Schema(
     bookingNeeded: { type: Boolean, required: false},
     priority: { type: Number, required: false },
     highlighted: { type: Boolean, required: false, default: false },
+    embedding: [Number],
     category: {
       type: String,
       enum: ['temple', 'tour', 'restaurant', 'accommodation'],
