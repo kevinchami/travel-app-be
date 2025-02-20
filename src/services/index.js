@@ -1,3 +1,4 @@
+
 export * as countryService from './country.service.js';
 export * as cityService from './city.service.js';
 export * as accommodationService from './accomodation.service.js';
@@ -17,3 +18,5 @@ export * as cafeService from './cafe.service.js';
 export * as mustService from './must.service.js';
 export * as placeService from './nearby.service.js';
 export * as featureFlagService from './featureFlag.service.js';
+export * as searchService from './search.service.js';
+export * as translationService from './translation.service.js';
