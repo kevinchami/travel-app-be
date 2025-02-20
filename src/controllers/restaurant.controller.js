@@ -69,3 +69,19 @@ export const getHighlightedRestaurantsByCountry = async (req, res) => {
     return res.status(500).json({ error: 'Internal Server Error' });
   }
 };
+
+export const searchRestaurants = async (req, res) => {
+  const { query, top_k = 20 } = req.body;
+
+  if (!query) {
+    return res.status(400).json({ error: 'Query is required' });
+  }
+
+  try {
+    const results = await restaurantService.searchRestaurants(query, top_k);
+    return res.status(200).json(results);
+  } catch (error) {
+    console.error('❌ Error en búsqueda de restaurantes:', error);
+    return res.status(500).json({ error: 'Internal Server Error' });
+  }
+};

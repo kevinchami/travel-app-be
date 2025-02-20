@@ -1,6 +1,8 @@
 // services/cafeService.js
 
 import Cafe from '../models/cafe.js'; // Ensure the Cafe model exists in your models directory
+import { buildVectorSearchPipeline } from '../utils/searchUtils.js';
+import { getCityIdByName } from './city.service.js';
 
 // Add new cafe
 export const addCafe = async cafeData => {
@@ -68,4 +70,40 @@ export const getDistinctTypes = async () => {
     throw new Error('Failed to fetch distinct types');
   }
   return distinctTypes;
+};
+
+export const searchCafes = async (query, top_k = 20, detectedCity = null) => {
+  const pipeline = await buildVectorSearchPipeline(query, 'cafe_vector_index', top_k);
+  if (!pipeline) return [];
+
+  const lowerQuery = query.toLowerCase();
+
+  const isKosherQuery = query.toLowerCase().includes('kosher');
+  const isSpecialtyCoffeeQuery =
+    lowerQuery.includes('specialty coffee') ||
+    lowerQuery.includes('specialty cafe') ||
+    lowerQuery.includes('third wave coffee') ||
+    lowerQuery.includes('barista');
+
+  if (isKosherQuery) {
+    pipeline.push({ $match: { kosherBoolean: true } });
+  }
+  if (isSpecialtyCoffeeQuery) {
+    pipeline.push({ $match: { type: 'Specialty Coffee' } });
+  }
+  if (detectedCity) {
+    const cityId = await getCityIdByName(detectedCity);
+    if (cityId) {
+      pipeline.push({ $match: { city: cityId } });
+    }
+  }
+
+  try {
+    const results = await Cafe.aggregate(pipeline);
+    console.log(`✅ Se encontraron ${results.length} cafes`);
+    return results;
+  } catch (error) {
+    console.error('❌ Error en búsqueda de cafes:', error);
+    return [];
+  }
 };

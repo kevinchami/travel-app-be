@@ -2,6 +2,8 @@
 
 import Country from '../models/country.js';
 import Restaurant from '../models/restaurant.js';
+import { buildVectorSearchPipeline } from '../utils/searchUtils.js';
+import { getCityIdByName } from './city.service.js';
 
 // Add new restaurant
 export const addRestaurant = async restaurantData => {
@@ -107,4 +109,31 @@ export const getHighlightedRestaurantsByCountry = async countryName => {
   }).sort({ priority: 1 });
 
   return restaurants;
+};
+
+export const searchRestaurants = async (query, top_k = 20, detectedCity = null) => {
+  const pipeline = await buildVectorSearchPipeline(query, 'vector_index', top_k);
+  if (!pipeline) return [];
+
+  const isKosherQuery = query.toLowerCase().includes('kosher');
+
+  if (isKosherQuery) {
+    pipeline.push({ $match: { kosherBoolean: true } });
+  }
+
+  if (detectedCity) {
+    const cityId = await getCityIdByName(detectedCity);
+    if (cityId) {
+      pipeline.push({ $match: { city: cityId } });
+    }
+  }
+
+  try {
+    const results = await Restaurant.aggregate(pipeline);
+    console.log(`✅ Se encontraron ${results.length} restaurantes`);
+    return results;
+  } catch (error) {
+    console.error('❌ Error en búsqueda de restaurantes:', error);
+    return [];
+  }
 };
