@@ -16,6 +16,7 @@ export const getCityById = async cityId => {
   return city;
 };
 
+
 export const updateCityById = async (cityId, updatedData) => {
   const updatedCity = await City.findByIdAndUpdate(cityId, updatedData, {
     new: true,
@@ -58,7 +59,8 @@ export const getCityIdByName = async cityName => {
       $options: 'i' // 🔍 Ignora mayúsculas/minúsculas
     }
   });
-
+  // console.log('e', city);
+  
   return city ? city._id : null;
 };
 
