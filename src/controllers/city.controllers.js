@@ -20,6 +20,26 @@ export const getCityById = async (req, res) => {
   return res.status(200).json(city);
 };
 
+export const getCityIdByName = async (req, res) => {
+  const { cityName } = req.params; // Obtener el nombre de la ciudad desde los parámetros de la URL
+
+  if (!cityName) {
+    return res.status(400).json({ error: 'City name is required' });
+  }
+
+  const cityId = await cityService.getCityIdByName(cityName);
+
+  if (!cityId) {
+    return res.status(404).json({ error: 'City not found' });
+  }
+
+  console.log('city id', cityId);
+  
+
+  return res.status(200).json({ cityId });
+};
+
+
 export const updateCity = async (req, res) => {
   const { cityId } = req.params;
   const updatedData = req.body; // Assuming the updated data is sent in the request body
