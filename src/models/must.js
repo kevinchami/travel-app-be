@@ -18,6 +18,10 @@ const MustSchema = new Schema(
     bookingNeeded: { type: Boolean, required: false, default: false },
     priority: { type: Number, required: false },
     highlighted: { type: Boolean, required: false, default: false },
+    type: {
+      type: String,
+      required: false,
+    },
     languages: {
       type: [String],
       required: false,
