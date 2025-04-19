@@ -1,4 +1,8 @@
-import { translateToEnglish, translateToHebrew, translateToSpanish } from '../services/translation.service.js';
+import {
+  translateToEnglish,
+  translateToHebrew,
+  translateToSpanish,
+} from '../services/translation.service.js';
 
 export const translateQuery = async (req, res) => {
   const { query, lang } = req.body;
@@ -26,6 +30,45 @@ export const translateQuery = async (req, res) => {
     return res.status(200).json({ translatedText });
   } catch (error) {
     console.error('❌ Error in translation:', error);
+    return res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+export const translateEnglish = async (req, res) => {
+  const { query } = req.body;
+  if (!query) return res.status(400).json({ error: 'Query is required' });
+
+  try {
+    const translatedText = await translateToEnglish(query);
+    return res.status(200).json({ translatedText });
+  } catch (error) {
+    console.error('❌ Error in translateEnglish:', error);
+    return res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+export const translateHebrew = async (req, res) => {
+  const { query } = req.body;
+  if (!query) return res.status(400).json({ error: 'Query is required' });
+
+  try {
+    const translatedText = await translateToHebrew(query);
+    return res.status(200).json({ translatedText });
+  } catch (error) {
+    console.error('❌ Error in translateHebrew:', error);
+    return res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+export const translateSpanish = async (req, res) => {
+  const { query } = req.body;
+  if (!query) return res.status(400).json({ error: 'Query is required' });
+
+  try {
+    const translatedText = await translateToSpanish(query);
+    return res.status(200).json({ translatedText });
+  } catch (error) {
+    console.error('❌ Error in translateSpanish:', error);
     return res.status(500).json({ error: 'Internal Server Error' });
   }
 };
