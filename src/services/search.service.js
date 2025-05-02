@@ -132,7 +132,7 @@ const buildFilterConditions = filters => {
 export const simpleSearchInMongoDB = async (
   query,
   filters = {},
-  limitPerCollection = 30,
+  limitPerCollection = 50,
 ) => {
   const results = [];
   const fuzzyRegex = query.split('').join('.*');
