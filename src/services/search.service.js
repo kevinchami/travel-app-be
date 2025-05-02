@@ -15,19 +15,19 @@ import { searchParties } from './party.service.js';
 
 dotenv.config();
 
+const collections = {
+  restaurant: Restaurant,
+  cafe: Cafe,
+  party: Party,
+  tour: Tour,
+  temple: Temple,
+  accommodation: Accomodation,
+};
+
 export const searchInMongoDB = async (query, top_k = 10) => {
   const translatedQuery = await translateToEnglish(query, { to: 'en' });
   const collection = await detectCollection(translatedQuery);
   const detectedCity = extractCityFromQuery(translatedQuery);
-
-  const collections = {
-    restaurant: Restaurant,
-    cafe: Cafe,
-    party: Party,
-    tour: Tour,
-    temple: Temple,
-    accomodation: Accomodation,
-  };
 
   let exactMatches = [];
 
@@ -94,4 +94,151 @@ export const searchInMongoDB = async (query, top_k = 10) => {
 
   console.log(`🔍 Resultados combinados: ${combinedResults.length}`);
   return combinedResults;
+};
+
+const buildFilterConditions = filters => {
+  const conditions = [];
+
+  if (filters.highlighted !== undefined) {
+    conditions.push({ highlighted: filters.highlighted });
+  }
+
+  if (
+    filters.types &&
+    Array.isArray(filters.types) &&
+    filters.types.length > 0
+  ) {
+    const regexArray = filters.types.map(type => new RegExp(type, 'i'));
+    conditions.push({
+      $or: regexArray.map(regex => ({ type: regex })),
+    });
+  }
+
+  if (filters.neighborhood) {
+    conditions.push({ neighborhood: filters.neighborhood });
+  }
+
+  if (filters.bookingNeeded !== undefined) {
+    conditions.push({ bookingNeeded: filters.bookingNeeded });
+  }
+
+  if (conditions.length === 0) {
+    return {}; // sin filtros extra
+  }
+
+  return { $and: conditions };
+};
+
+export const simpleSearchInMongoDB = async (
+  query,
+  filters = {},
+  limitPerCollection = 30,
+) => {
+  const results = [];
+  const fuzzyRegex = query.split('').join('.*');
+  const hasQuery = query && query.trim() !== '';
+
+  for (const [collectionName, model] of Object.entries(collections)) {
+    let collectionResults = [];
+
+    let baseFilter;
+    if (hasQuery) {
+      // Si hay texto, combina con filtros
+      try {
+        baseFilter = {
+          $and: [{ $text: { $search: query } }, buildFilterConditions(filters)],
+        };
+        collectionResults = await model
+          .find(baseFilter, { score: { $meta: 'textScore' } })
+          .sort({ score: { $meta: 'textScore' } })
+          .limit(limitPerCollection);
+      } catch (err) {
+        console.warn(
+          `⚠️ No $text index in ${collectionName}, falling back to regex`,
+        );
+        baseFilter = {
+          $and: [
+            {
+              $or: [
+                { name: { $regex: fuzzyRegex, $options: 'i' } },
+                { type: { $regex: fuzzyRegex, $options: 'i' } },
+              ],
+            },
+            buildFilterConditions(filters),
+          ],
+        };
+        collectionResults = await model
+          .find(baseFilter)
+          .limit(limitPerCollection);
+      }
+    } else {
+      // Si NO hay texto, busca solo por filtros
+      baseFilter = buildFilterConditions(filters);
+      collectionResults = await model
+        .find(baseFilter)
+        .limit(limitPerCollection);
+    }
+
+    if (collectionResults.length > 0) {
+      collectionResults.forEach(item => {
+        results.push({
+          ...item.toObject(),
+          collection: collectionName,
+        });
+      });
+    }
+  }
+
+  return results;
+};
+
+export const cleanTypes = rawTypesArray => {
+  const uniqueTypes = new Set();
+
+  rawTypesArray.forEach(typeStr => {
+    // separa por coma, limpia espacios y mete en el Set
+    typeStr.split(',').forEach(subType => {
+      const trimmed = subType.trim();
+      if (trimmed) {
+        uniqueTypes.add(trimmed);
+      }
+    });
+  });
+
+  return Array.from(uniqueTypes).sort();
+};
+
+export const getTypesByCollection = async collectionName => {
+  const model = collections[collectionName];
+  if (!model) {
+    throw new Error(`Invalid collection name: ${collectionName}`);
+  }
+
+  const types = await model.distinct('type');
+  return types;
+};
+
+export const cleanNeighborhoods = rawNeighborhoodsArray => {
+  const uniqueNeighborhoods = new Set();
+
+  rawNeighborhoodsArray.forEach(neigh => {
+    const trimmed = neigh.trim();
+    if (trimmed) {
+      uniqueNeighborhoods.add(trimmed);
+    }
+  });
+
+  return Array.from(uniqueNeighborhoods).sort();
+};
+
+export const getNeighborhoodsByCity = async (collectionName, cityId) => {
+  const model = collections[collectionName];
+  if (!model) {
+    throw new Error(`Invalid collection name: ${collectionName}`);
+  }
+
+  // Busca solo los neighborhoods para la ciudad especificada
+  const neighborhoods = await model.distinct('neighborhood', { city: cityId });
+
+  return neighborhoods;
 };
