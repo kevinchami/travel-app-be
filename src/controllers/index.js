@@ -18,3 +18,4 @@ export * as placeController from './nearby.controller.js';
 export * as featureController from './featureFlag.controller.js'
 export * as searchController from './search.controller.js'
 export * as translationController from './translation.controller.js'
+export * as supermarketController from './supermarket.controller.js'
