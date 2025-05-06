@@ -75,7 +75,7 @@ router.use('/api/driver', driverRoutes);
 router.use('/api/cafe', cafeRoutes);
 router.use('/api/must', mustRoutes);
 router.use('/api/nearby', nearbyRoutes);
-router.use('/api/feature-flag', featureFlagRoutes);
+router.use('/api/featureFlag', featureFlagRoutes);
 router.use('/api/search', searchRoutes);
 router.use('/api/translation', translationRoutes);
 router.use('/api/supermarket', supermarketRoutes);
