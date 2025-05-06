@@ -12,6 +12,7 @@ import Temple from '../models/temple.js';
 import Accomodation from '../models/accomodation.js';
 import diacritics from 'diacritics';
 import { searchParties } from './party.service.js';
+import Must from '../models/must.js';
 
 dotenv.config();
 
@@ -22,6 +23,7 @@ const collections = {
   tour: Tour,
   temple: Temple,
   accommodation: Accomodation,
+  must: Must,
 };
 
 export const searchInMongoDB = async (query, top_k = 10) => {
@@ -133,17 +135,23 @@ export const simpleSearchInMongoDB = async (
   query,
   filters = {},
   limitPerCollection = 50,
+  modelName = null,
 ) => {
+  console.log('model!!',modelName);
   const results = [];
   const fuzzyRegex = query.split('').join('.*');
   const hasQuery = query && query.trim() !== '';
 
-  for (const [collectionName, model] of Object.entries(collections)) {
+  // Si modelName está definido, usamos solo esa colección
+  const collectionsToSearch = modelName
+    ? { [modelName]: collections[modelName] }
+    : collections;
+
+  for (const [collectionName, model] of Object.entries(collectionsToSearch)) {
     let collectionResults = [];
 
     let baseFilter;
     if (hasQuery) {
-      // Si hay texto, combina con filtros
       try {
         baseFilter = {
           $and: [{ $text: { $search: query } }, buildFilterConditions(filters)],
@@ -172,7 +180,6 @@ export const simpleSearchInMongoDB = async (
           .limit(limitPerCollection);
       }
     } else {
-      // Si NO hay texto, busca solo por filtros
       baseFilter = buildFilterConditions(filters);
       collectionResults = await model
         .find(baseFilter)
