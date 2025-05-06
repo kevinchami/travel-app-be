@@ -26,7 +26,7 @@ export const search = async (req, res) => {
 };
 
 export const searchSimple = async (req, res) => {
-  const { query = '', filters = {} } = req.body;
+  const { query = '', filters = {}, model = null } = req.body;
 
   // Si no hay query y no hay filtros → error
   if (!query.trim() && Object.keys(filters).length === 0) {
@@ -36,7 +36,7 @@ export const searchSimple = async (req, res) => {
   }
 
   try {
-    const results = await simpleSearchInMongoDB(query, filters);
+    const results = await simpleSearchInMongoDB(query, filters, 50, model);
     return res.status(200).json(results);
   } catch (error) {
     console.error('Error in simple search:', error);
