@@ -2,7 +2,7 @@ import { Schema, model } from 'mongoose';
 
 const PartySchema = new Schema(
   {
-    countryId: { type: String, required: false },
+    countryId: { type: String, required: false }, //id 
     name: { type: String, required: true },
     contact: { type: Number, required: false },
     imageUrl: [{ type: String, required: true }],
