@@ -60,7 +60,7 @@ const router = Router();
 
 router.use('/api/countries', countriesRoutes);
 router.use('/api/cities', citiesRoutes);
-router.use('/api/accommodation', accommodationRoutes);
+router.use('/api/accomodation', accommodationRoutes);
 router.use('/api/restaurants', restaurantRoutes);
 router.use('/api/temples', templeRoutes);
 router.use('/api/tours', tourRoutes);
