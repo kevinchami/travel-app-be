@@ -6,6 +6,7 @@ const TempleSchema = new Schema(
     name: { type: String, required: true },
     contact: { type: Number, required: false },
     email: {type: String, required: false},
+    webUrl: {type: String, required: false},
     imageUrl: [{ type: String, required: true }],
     location: { type: String, required: true },
     neighborhood: { type: String, required: false },
