@@ -5,6 +5,7 @@ const TempleSchema = new Schema(
     countryId: { type: String, required: false },
     name: { type: String, required: true },
     contact: { type: Number, required: false },
+    email: {type: String, required: false},
     imageUrl: [{ type: String, required: true }],
     location: { type: String, required: true },
     neighborhood: { type: String, required: false },
@@ -18,7 +19,7 @@ const TempleSchema = new Schema(
     },
     type: {
       type: String,
-      enum: ['sefaradi', 'ashkenazi', 'chabbad'],
+      // enum: ['sefaradi', 'ashkenazi', 'chabbad'],
       required: false,
     },
     city: {
