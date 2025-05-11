@@ -10,6 +10,7 @@ const RestaurantSchema = new Schema(
     menuUrl: { type: String, required: false },
     personalOpinion: { type: String, required: false },
     mapsUrl: { type: String, required: false },
+    hide: {type: Boolean, required: false},
     kosherBoolean: { type: Boolean, required: false},
     bookingNeeded: { type: Boolean, required: false},
     priority: { type: Number, required: false },

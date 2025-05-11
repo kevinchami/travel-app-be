@@ -15,6 +15,7 @@ const AccomodationSchema = new Schema(
     contact: { type: Number, required: false },
     imageUrl: [{ type: String, required: true }],
     priority: { type: Number, required: false },
+    hide: {type: Boolean, required: false},
     highlighted: { type: Boolean, required: false, default: false },
     languages: {
       type: [String],

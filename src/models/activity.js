@@ -14,6 +14,7 @@ const ActivitySchema = new Schema(
     priority: { type: Number, required: false },
     highlighted: { type: Boolean, required: false, default: false },
     webUrl: { type: String, required: false },
+    hide: {type: Boolean, required: false},
     reviews: [
       {
         type: Schema.Types.ObjectId,

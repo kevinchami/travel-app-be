@@ -12,6 +12,7 @@ const DriverSchema = new Schema(
     priceShow: { type: Boolean, required: false, default: false },
     licensePlate: { type: String, required: false },
     availability: { type: Boolean, required: false },
+    hide: {type: Boolean, required: false},
     verificated: { type: Boolean, required: false },
     priority: { type: Number, required: false },
     highlighted: { type: Boolean, required: false, default: false },

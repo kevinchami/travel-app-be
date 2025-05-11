@@ -9,6 +9,7 @@ const TempleSchema = new Schema(
     webUrl: {type: String, required: false},
     imageUrl: [{ type: String, required: true }],
     location: { type: String, required: true },
+    hide: {type: Boolean, required: false},
     neighborhood: { type: String, required: false },
     mapsUrl: { type: String, required: false },
     shabbatfood: { type: Boolean, required: false },

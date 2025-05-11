@@ -13,6 +13,7 @@ const CafeSchema = new Schema(
     mapsUrl: { type: String, required: true },
     kosherBoolean: { type: Boolean, required: true },
     bookingNeeded: { type: Boolean, required: false, default: false },
+    hide: {type: Boolean, required: false},
     priority: { type: Number, required: false },
     highlighted: { type: Boolean, required: false, default: false },
     category: {

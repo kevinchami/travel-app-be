@@ -10,6 +10,7 @@ const MustSchema = new Schema(
     location: { type: String, required: false },
     contact: { type: Number, required: false },
     imageUrl: [{ type: String, required: false }],
+    hide: {type: Boolean, required: false},
     hours: { type: String, required: false },
     category: { type: String, required: false },
     mapsUrl: { type: String, required: false },

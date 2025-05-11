@@ -8,6 +8,7 @@ const PartySchema = new Schema(
     imageUrl: [{ type: String, required: true }],
     location: { type: String, required: true },
     neighborhood: { type: String, required: false },
+    hide: {type: Boolean, required: false},
     mapsUrl: { type: String, required: true },
     webUrl: { type: String, required: true },
     priority: { type: Number, required: false },
