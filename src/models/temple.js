@@ -1,15 +1,16 @@
 import { Schema, model } from 'mongoose';
+import { addHideFilterMiddleware } from '../middleware/autoHideFilter.js';
 
 const TempleSchema = new Schema(
   {
     countryId: { type: String, required: false },
     name: { type: String, required: true },
     contact: { type: Number, required: false },
-    email: {type: String, required: false},
-    webUrl: {type: String, required: false},
+    email: { type: String, required: false },
+    webUrl: { type: String, required: false },
     imageUrl: [{ type: String, required: true }],
     location: { type: String, required: true },
-    hide: {type: Boolean, required: false},
+    hide: { type: Boolean, required: false },
     neighborhood: { type: String, required: false },
     mapsUrl: { type: String, required: false },
     shabbatfood: { type: Boolean, required: false },
@@ -40,6 +41,8 @@ const TempleSchema = new Schema(
   },
   { timestamps: true },
 );
+
+addHideFilterMiddleware(TempleSchema);
 
 const Temple = model('Temple', TempleSchema);
 

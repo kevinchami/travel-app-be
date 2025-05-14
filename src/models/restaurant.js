@@ -1,4 +1,5 @@
 import { Schema, model } from 'mongoose';
+import { addHideFilterMiddleware } from '../middleware/autoHideFilter.js';
 
 const RestaurantSchema = new Schema(
   {
@@ -51,6 +52,8 @@ RestaurantSchema.index({ city: 1 });
 RestaurantSchema.index({ type: 1 });
 RestaurantSchema.index({ name: 1 });
 RestaurantSchema.index({ rating: -1 });
+
+addHideFilterMiddleware(RestaurantSchema);
 
 const Restaurant = model('Restaurant', RestaurantSchema);
 

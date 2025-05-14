@@ -1,4 +1,5 @@
 import { Schema, model } from 'mongoose';
+import { addHideFilterMiddleware } from '../middleware/autoHideFilter.js';
 
 const SupermarketSchema = new Schema(
   {
@@ -9,9 +10,9 @@ const SupermarketSchema = new Schema(
     imageUrl: [{ type: String, required: true }],
     menuUrl: { type: String, required: false },
     personalOpinion: { type: String, required: false },
-    hide: {type: Boolean, required: false},
+    hide: { type: Boolean, required: false },
     mapsUrl: { type: String, required: false },
-    kosherBoolean: { type: Boolean, required: false},
+    kosherBoolean: { type: Boolean, required: false },
     // bookingNeeded: { type: Boolean, required: false},
     priority: { type: Number, required: false },
     highlighted: { type: Boolean, required: false, default: false },
@@ -50,6 +51,8 @@ SupermarketSchema.index({ city: 1 });
 SupermarketSchema.index({ type: 1 });
 SupermarketSchema.index({ name: 1 });
 SupermarketSchema.index({ rating: -1 });
+
+addHideFilterMiddleware(SupermarketSchema);
 
 const Supermarket = model('Supermarket', SupermarketSchema);
 

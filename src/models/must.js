@@ -1,6 +1,7 @@
 // models/must.js
 
 import { Schema, model } from 'mongoose';
+import { addHideFilterMiddleware } from '../middleware/autoHideFilter.js';
 
 const MustSchema = new Schema(
   {
@@ -39,6 +40,9 @@ const MustSchema = new Schema(
   },
   { timestamps: true },
 );
+
+addHideFilterMiddleware(MustSchema);
+
 
 const Must = model('Must', MustSchema);
 

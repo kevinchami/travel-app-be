@@ -1,4 +1,5 @@
 import { Schema, model } from 'mongoose';
+import { addHideFilterMiddleware } from '../middleware/autoHideFilter.js';
 
 const AccomodationSchema = new Schema(
   {
@@ -15,7 +16,7 @@ const AccomodationSchema = new Schema(
     contact: { type: Number, required: false },
     imageUrl: [{ type: String, required: true }],
     priority: { type: Number, required: false },
-    hide: {type: Boolean, required: false},
+    hide: { type: Boolean, required: false },
     highlighted: { type: Boolean, required: false, default: false },
     languages: {
       type: [String],
@@ -58,6 +59,8 @@ const AccomodationSchema = new Schema(
   },
   { timestamps: true },
 );
+
+addHideFilterMiddleware(AccomodationSchema);
 
 const Accomodation = model('Accomodation', AccomodationSchema);
 

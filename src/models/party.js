@@ -1,4 +1,5 @@
 import { Schema, model } from 'mongoose';
+import { addHideFilterMiddleware } from '../middleware/autoHideFilter.js';
 
 const PartySchema = new Schema(
   {
@@ -34,6 +35,8 @@ const PartySchema = new Schema(
   },
   { timestamps: true },
 );
+
+addHideFilterMiddleware(PartySchema);
 
 const Party = model('Party', PartySchema);
 

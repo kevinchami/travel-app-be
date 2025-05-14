@@ -1,4 +1,5 @@
 import { Schema, model } from 'mongoose';
+import { addHideFilterMiddleware } from '../middleware/autoHideFilter.js';
 
 const TourSchema = new Schema(
   {
@@ -9,9 +10,9 @@ const TourSchema = new Schema(
     price: { type: Number, required: false },
     priceDetail: [{ type: String, required: false }],
     durationDetail: [{ type: String, required: false }],
-    hide: {type: Boolean, required: false},
+    hide: { type: Boolean, required: false },
     contact: { type: Number, required: false },
-    webUrl: { type: String, required: false},
+    webUrl: { type: String, required: false },
     imageUrl: [{ type: String, required: true }],
     rating: { type: Number, required: false },
     review: { type: String, required: false },
@@ -45,6 +46,8 @@ const TourSchema = new Schema(
   },
   { timestamps: true },
 );
+
+addHideFilterMiddleware(TourSchema);
 
 const Tour = model('Tour', TourSchema);
 

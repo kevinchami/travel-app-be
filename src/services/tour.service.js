@@ -71,6 +71,7 @@ export const getHighlightedToursByCountry = async countryName => {
   const tours = await Tour.find({
     countryId: country._id.toString(), // Asegúrate de que la comparación sea con un String
     highlighted: true,
+    hide: { $ne: true },
   }).sort({ priority: 1 });
 
   return tours;

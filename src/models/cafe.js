@@ -1,4 +1,5 @@
 import { Schema, model } from 'mongoose';
+import { addHideFilterMiddleware } from '../middleware/autoHideFilter.js';
 
 const CafeSchema = new Schema(
   {
@@ -13,7 +14,7 @@ const CafeSchema = new Schema(
     mapsUrl: { type: String, required: true },
     kosherBoolean: { type: Boolean, required: true },
     bookingNeeded: { type: Boolean, required: false, default: false },
-    hide: {type: Boolean, required: false},
+    hide: { type: Boolean, required: false },
     priority: { type: Number, required: false },
     highlighted: { type: Boolean, required: false, default: false },
     category: {
@@ -45,6 +46,8 @@ const CafeSchema = new Schema(
   },
   { timestamps: true },
 );
+
+addHideFilterMiddleware(CafeSchema);
 
 const Cafe = model('Cafe', CafeSchema, 'cafes');
 
