@@ -10,19 +10,17 @@ export const addDriver = async driverData => {
   return driver;
 };
 
-export const getDrivers = async () => {
-  const drivers = await Driver.find();
-  if (!drivers) {
-    throw new Error('Failed to fetch drivers');
-  }
+export const getDrivers = async (includeHidden = false) => {
+  const options = includeHidden === 'true' ? { includeHidden: 'true' } : {};
+  const drivers = await Driver.find({}, null, options);
+  if (!drivers) throw new Error('Failed to fetch drivers');
   return drivers;
 };
 
-export const getDriverById = async driverId => {
-  const driver = await Driver.findById(driverId);
-  if (!driver) {
-    throw new Error('Driver not found');
-  }
+export const getDriverById = async (driverId, includeHidden = false) => {
+  const options = includeHidden === 'true' ? { includeHidden: 'true' } : {};
+  const driver = await Driver.findById(driverId, null, options);
+  if (!driver) throw new Error('Driver not found');
   return driver;
 };
 
@@ -33,11 +31,10 @@ export const removeDriverById = async driverId => {
   }
 };
 
-export const getDriversByCity = async cityId => {
-  const drivers = await Driver.find({ city: cityId });
-  if (!drivers) {
-    throw new Error('Failed to fetch drivers by city');
-  }
+export const getDriversByCity = async (cityId, includeHidden = false) => {
+  const options = includeHidden === 'true' ? { includeHidden: 'true' } : {};
+  const drivers = await Driver.find({ city: cityId }, null, options);
+  if (!drivers) throw new Error('Failed to fetch drivers by city');
   return drivers;
 };
 

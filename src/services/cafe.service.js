@@ -15,8 +15,9 @@ export const addCafe = async cafeData => {
 };
 
 // Get all cafes
-export const getCafes = async () => {
-  const cafes = await Cafe.find();
+export const getCafes = async (includeHidden = false) => {
+  const options = includeHidden === 'true' ? { includeHidden: 'true' } : {};
+  const cafes = await Cafe.find({}, null, options);
   if (!cafes) {
     throw new Error('Failed to fetch cafes');
   }
@@ -24,8 +25,9 @@ export const getCafes = async () => {
 };
 
 // Get cafe by ID
-export const getCafeById = async cafeId => {
-  const cafe = await Cafe.findById(cafeId);
+export const getCafeById = async (cafeId, includeHidden = false) => {
+  const options = includeHidden === 'true' ? { includeHidden: 'true' } : {};
+  const cafe = await Cafe.findById(cafeId, null, options);
   if (!cafe) {
     throw new Error('Cafe not found');
   }
@@ -33,8 +35,9 @@ export const getCafeById = async cafeId => {
 };
 
 // Get cafes by city
-export const getCafesByCity = async cityId => {
-  const cafes = await Cafe.find({ city: cityId });
+export const getCafesByCity = async (cityId, includeHidden = false) => {
+  const options = includeHidden === 'true' ? { includeHidden: 'true' } : {};
+  const cafes = await Cafe.find({ city: cityId }, null, options);
   if (!cafes) {
     throw new Error('Failed to fetch cafes by city');
   }
@@ -72,13 +75,22 @@ export const getDistinctTypes = async () => {
   return distinctTypes;
 };
 
-export const searchCafes = async (query, top_k = 20, detectedCity = null) => {
-  const pipeline = await buildVectorSearchPipeline(query, 'cafe_vector_index', top_k);
+export const searchCafes = async (
+  query,
+  top_k = 20,
+  detectedCity = null,
+  includeHidden = false,
+) => {
+  const pipeline = await buildVectorSearchPipeline(
+    query,
+    'cafe_vector_index',
+    top_k,
+  );
   if (!pipeline) return [];
 
   const lowerQuery = query.toLowerCase();
 
-  const isKosherQuery = query.toLowerCase().includes('kosher');
+  const isKosherQuery = lowerQuery.includes('kosher');
   const isSpecialtyCoffeeQuery =
     lowerQuery.includes('specialty coffee') ||
     lowerQuery.includes('specialty cafe') ||
@@ -96,6 +108,10 @@ export const searchCafes = async (query, top_k = 20, detectedCity = null) => {
     if (cityId) {
       pipeline.push({ $match: { city: cityId } });
     }
+  }
+
+  if (includeHidden !== 'true') {
+    pipeline.push({ $match: { hide: { $ne: true } } });
   }
 
   try {

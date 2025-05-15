@@ -40,22 +40,29 @@ export const addAccommodationToCity = async (req, res) => {
 };
 
 export const getAccommodations = async (req, res) => {
-  const accommodations = await accommodationService.getAccommodations();
+  const { includeHidden } = req.query;
+  const accommodations =
+    await accommodationService.getAccommodations(includeHidden);
   return res.status(200).json(accommodations);
 };
 
 export const getAccommodationById = async (req, res) => {
   const { accommodationId } = req.params;
-  const accommodation = await accommodationService
-    .getAccommodationById(accommodationId)
-    .populate({ path: 'reviews' });
+  const { includeHidden } = req.query;
+  const accommodation = await accommodationService.getAccommodationById(
+    accommodationId,
+    includeHidden,
+  );
   return res.status(200).json(accommodation);
 };
 
 export const getAccommodationsByCity = async (req, res) => {
   const { cityId } = req.params;
-  const accommodations =
-    await accommodationService.getAccommodationsByCity(cityId);
+  const { includeHidden } = req.query;
+  const accommodations = await accommodationService.getAccommodationsByCity(
+    cityId,
+    includeHidden,
+  );
   return res.status(200).json(accommodations);
 };
 
@@ -79,12 +86,15 @@ export const updateAccommodation = async (req, res) => {
 };
 
 export const filterAccommodationsByCountry = async (req, res) => {
+  const { countryName } = req.params;
+  const { includeHidden } = req.query;
+
   try {
-    const { countryName } = req.params;
-
     const accommodations =
-      await accommodationService.filterAccommodationsByCountry(countryName);
-
+      await accommodationService.filterAccommodationsByCountry(
+        countryName,
+        includeHidden,
+      );
     return res.status(200).json(accommodations);
   } catch (error) {
     console.error('Error filtering accommodations by country:', error);
@@ -93,14 +103,15 @@ export const filterAccommodationsByCountry = async (req, res) => {
 };
 
 export const filterHighlightAccommodationsByCountry = async (req, res) => {
-  try {
-    const { countryName } = req.params;
+  const { countryName } = req.params;
+  const { includeHidden } = req.query;
 
+  try {
     const accommodations =
       await accommodationService.filterHighlightAccommodationsByCountry(
         countryName,
+        includeHidden,
       );
-
     return res.status(200).json(accommodations);
   } catch (error) {
     console.error('Error filtering accommodations by country:', error);

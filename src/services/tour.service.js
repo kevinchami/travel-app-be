@@ -18,17 +18,16 @@ export const addTourToCity = async (cityId, tourData) => {
 };
 
 // Get all tours
-export const getTours = async () => {
-  const tours = await Tour.find();
-  return tours;
+export const getTours = async (includeHidden = false) => {
+  const options = includeHidden === 'true' ? { includeHidden: 'true' } : {};
+  return await Tour.find({}, null, options);
 };
 
 // Get a tour by ID
-export const getTourById = async tourId => {
-  const tour = await Tour.findById(tourId);
-  if (!tour) {
-    throw new Error('Tour not found');
-  }
+export const getTourById = async (tourId, includeHidden = false) => {
+  const options = includeHidden === 'true' ? { includeHidden: 'true' } : {};
+  const tour = await Tour.findById(tourId, null, options);
+  if (!tour) throw new Error('Tour not found');
   return tour;
 };
 
@@ -53,26 +52,28 @@ export const updateTour = async (tourId, updatedData) => {
 };
 
 // Get tours by city
-export const getToursByCity = async cityId => {
-  const tours = await Tour.find({ city: cityId });
-  if (!tours) {
-    throw new Error('Failed to fetch tours by city');
-  }
+export const getToursByCity = async (cityId, includeHidden = false) => {
+  const options = includeHidden === 'true' ? { includeHidden: 'true' } : {};
+  const tours = await Tour.find({ city: cityId }, null, options);
+  if (!tours) throw new Error('Failed to fetch tours by city');
   return tours;
 };
 
-export const getHighlightedToursByCountry = async countryName => {
+export const getHighlightedToursByCountry = async (
+  countryName,
+  includeHidden = false,
+) => {
   const country = await Country.findOne({ name: countryName });
+  if (!country) throw new Error('Country not found');
 
-  if (!country) {
-    throw new Error('Country not found');
+  const filter = {
+    countryId: country._id.toString(),
+    highlighted: true,
+  };
+
+  if (includeHidden !== 'true') {
+    filter.hide = { $ne: true };
   }
 
-  const tours = await Tour.find({
-    countryId: country._id.toString(), // Asegúrate de que la comparación sea con un String
-    highlighted: true,
-    hide: { $ne: true },
-  }).sort({ priority: 1 });
-
-  return tours;
+  return await Tour.find(filter).sort({ priority: 1 });
 };

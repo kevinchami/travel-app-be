@@ -13,7 +13,8 @@ export const addMust = async (req, res) => {
 
 export const getMusts = async (req, res) => {
   try {
-    const musts = await mustService.getMusts();
+    const { includeHidden } = req.query;
+    const musts = await mustService.getMusts(includeHidden);
     return res.status(200).json(musts);
   } catch (error) {
     return res.status(400).json({ error: error.message });
@@ -35,7 +36,8 @@ export const getDistinctTypes = async (req, res) => {
 export const getMustById = async (req, res) => {
   try {
     const { mustId } = req.params;
-    const must = await mustService.getMustById(mustId);
+    const { includeHidden } = req.query;
+    const must = await mustService.getMustById(mustId, includeHidden);
     return res.status(200).json(must);
   } catch (error) {
     return res.status(400).json({ error: error.message });
@@ -45,7 +47,8 @@ export const getMustById = async (req, res) => {
 export const getMustsByCountry = async (req, res) => {
   try {
     const { countryId } = req.params;
-    const musts = await mustService.getMustsByCountry(countryId);
+    const { includeHidden } = req.query;
+    const musts = await mustService.getMustsByCountry(countryId, includeHidden);
     return res.status(200).json(musts);
   } catch (error) {
     return res.status(400).json({ error: error.message });
@@ -55,7 +58,8 @@ export const getMustsByCountry = async (req, res) => {
 export const getMustsByCity = async (req, res) => {
   try {
     const { cityId } = req.params;
-    const musts = await mustService.getMustsByCity(cityId);
+    const { includeHidden } = req.query;
+    const musts = await mustService.getMustsByCity(cityId, includeHidden);
     return res.status(200).json(musts);
   } catch (error) {
     return res.status(400).json({ error: error.message });

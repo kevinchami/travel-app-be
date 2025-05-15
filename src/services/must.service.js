@@ -10,19 +10,17 @@ export const addMust = async mustData => {
   return must;
 };
 
-export const getMusts = async () => {
-  const musts = await Must.find();
-  if (!musts) {
-    throw new Error('Failed to fetch musts');
-  }
+export const getMusts = async (includeHidden = false) => {
+  const options = includeHidden === 'true' ? { includeHidden: 'true' } : {};
+  const musts = await Must.find({}, null, options);
+  if (!musts) throw new Error('Failed to fetch musts');
   return musts;
 };
 
-export const getMustById = async mustId => {
-  const must = await Must.findById(mustId);
-  if (!must) {
-    throw new Error('Must not found');
-  }
+export const getMustById = async (mustId, includeHidden = false) => {
+  const options = includeHidden === 'true' ? { includeHidden: 'true' } : {};
+  const must = await Must.findById(mustId, null, options);
+  if (!must) throw new Error('Must not found');
   return must;
 };
 
@@ -33,19 +31,17 @@ export const removeMustById = async mustId => {
   }
 };
 
-export const getMustsByCountry = async countryId => {
-  const musts = await Must.find({ countryId: countryId });
-  if (!musts) {
-    throw new Error('Failed to fetch musts by country');
-  }
+export const getMustsByCountry = async (countryId, includeHidden = false) => {
+  const options = includeHidden === 'true' ? { includeHidden: 'true' } : {};
+  const musts = await Must.find({ countryId }, null, options);
+  if (!musts) throw new Error('Failed to fetch musts by country');
   return musts;
 };
 
-export const getMustsByCity = async cityId => {
-  const musts = await Must.find({ city: cityId });
-  if (!musts) {
-    throw new Error('Failed to fetch musts by city');
-  }
+export const getMustsByCity = async (cityId, includeHidden = false) => {
+  const options = includeHidden === 'true' ? { includeHidden: 'true' } : {};
+  const musts = await Must.find({ city: cityId }, null, options);
+  if (!musts) throw new Error('Failed to fetch musts by city');
   return musts;
 };
 

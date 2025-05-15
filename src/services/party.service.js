@@ -11,28 +11,19 @@ export const addParty = async partyData => {
   return party;
 };
 
-export const getParties = async () => {
-  const parties = await Party.find();
-  if (!parties) {
-    throw new Error('Failed to fetch parties');
-  }
-  return parties;
+export const getParties = async (includeHidden = false) => {
+  const options = includeHidden === 'true' ? { includeHidden: 'true' } : {};
+  return await Party.find({}, null, options);
 };
 
-export const getPartyById = async partyId => {
-  const party = await Party.findById(partyId);
-  if (!party) {
-    throw new Error('Party not found');
-  }
-  return party;
+export const getPartyById = async (partyId, includeHidden = false) => {
+  const options = includeHidden === 'true' ? { includeHidden: 'true' } : {};
+  return await Party.findById(partyId, null, options);
 };
 
-export const getPartiesByCity = async cityId => {
-  const parties = await Party.find({ city: cityId });
-  if (!parties) {
-    throw new Error('Failed to fetch parties by city');
-  }
-  return parties;
+export const getPartiesByCity = async (cityId, includeHidden = false) => {
+  const options = includeHidden === 'true' ? { includeHidden: 'true' } : {};
+  return await Party.find({ city: cityId }, null, options);
 };
 
 export const removePartyById = async partyId => {
@@ -53,28 +44,37 @@ export const updateParty = async (partyId, updatedData) => {
   return updatedParty;
 };
 
-export const getHighlightedPartiesByCountry = async countryName => {
+export const getHighlightedPartiesByCountry = async (
+  countryName,
+  includeHidden = false,
+) => {
   const country = await Country.findOne({ name: countryName });
+  if (!country) throw new Error('Country not found');
 
-  if (!country) {
-    throw new Error('Country not found');
-  }
+  const options = includeHidden === 'true' ? { includeHidden: 'true' } : {};
 
-  const parties = await Party.find({
-    countryId: country._id.toString(), // Asegúrate de que la comparación sea con un String
-    highlighted: true,
-  }).sort({ priority: 1 });
-
-  return parties;
+  return await Party.find(
+    { countryId: country._id.toString(), highlighted: true },
+    null,
+    options,
+  ).sort({ priority: 1 });
 };
 
-export const searchParties = async (query, top_k = 20, detectedCity = null) => {
-  const pipeline = await buildVectorSearchPipeline(query, 'party_vector_index', top_k);
+export const searchParties = async (
+  query,
+  top_k = 20,
+  detectedCity = null,
+  includeHidden = false,
+) => {
+  const pipeline = await buildVectorSearchPipeline(
+    query,
+    'party_vector_index',
+    top_k,
+  );
   if (!pipeline) return [];
 
   const lowerQuery = query.toLowerCase();
 
-  // 🔥 Detect queries related to nightlife
   const isNightclubQuery =
     lowerQuery.includes('nightclub') ||
     lowerQuery.includes('club') ||
@@ -95,20 +95,17 @@ export const searchParties = async (query, top_k = 20, detectedCity = null) => {
     lowerQuery.includes('concert') ||
     lowerQuery.includes('event');
 
-  if (isNightclubQuery) {
-    pipeline.push({ $match: { type: 'Nightclub' } });
-  }
-  if (isBarQuery) {
-    pipeline.push({ $match: { type: 'Bar' } });
-  }
-  if (isFestivalQuery) {
-    pipeline.push({ $match: { type: 'Festival' } });
-  }
+  if (isNightclubQuery) pipeline.push({ $match: { type: 'Nightclub' } });
+  if (isBarQuery) pipeline.push({ $match: { type: 'Bar' } });
+  if (isFestivalQuery) pipeline.push({ $match: { type: 'Festival' } });
+
   if (detectedCity) {
     const cityId = await getCityIdByName(detectedCity);
-    if (cityId) {
-      pipeline.push({ $match: { city: cityId } });
-    }
+    if (cityId) pipeline.push({ $match: { city: cityId } });
+  }
+
+  if (includeHidden !== 'true') {
+    pipeline.push({ $match: { hide: { $ne: true } } });
   }
 
   try {

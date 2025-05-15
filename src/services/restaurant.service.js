@@ -15,31 +15,26 @@ export const addRestaurant = async restaurantData => {
 };
 
 // Get all restaurants
-export const getRestaurants = async () => {
-  const restaurants = await Restaurant.find();
-
-  if (!restaurants) {
-    throw new Error('Failed to fetch restaurants');
-  }
-  return restaurants;
+export const getRestaurants = async (includeHidden = false) => {
+  const options = includeHidden === 'true' ? { includeHidden: 'true' } : {};
+  return await Restaurant.find({}, null, options);
 };
 
 // Get restaurant by ID
-export const getRestaurantById = async restaurantId => {
-  const restaurant = await Restaurant.findById(restaurantId);
-  if (!restaurant) {
-    throw new Error('Restaurant not found');
-  }
+export const getRestaurantById = async (
+  restaurantId,
+  includeHidden = false,
+) => {
+  const options = includeHidden === 'true' ? { includeHidden: 'true' } : {};
+  const restaurant = await Restaurant.findById(restaurantId, null, options);
+  if (!restaurant) throw new Error('Restaurant not found');
   return restaurant;
 };
 
 // Get restaurants by city
-export const getRestaurantsByCity = async cityId => {
-  const restaurants = await Restaurant.find({ city: cityId });
-  if (!restaurants) {
-    throw new Error('Failed to fetch restaurants by city');
-  }
-  return restaurants;
+export const getRestaurantsByCity = async (cityId, includeHidden = false) => {
+  const options = includeHidden === 'true' ? { includeHidden: 'true' } : {};
+  return await Restaurant.find({ city: cityId }, null, options);
 };
 
 // Remove restaurant by ID
@@ -96,36 +91,45 @@ export const getDistinctTypes = async () => {
   }
 };
 
-export const getHighlightedRestaurantsByCountry = async countryName => {
+export const getHighlightedRestaurantsByCountry = async (
+  countryName,
+  includeHidden = false,
+) => {
   const country = await Country.findOne({ name: countryName });
+  if (!country) throw new Error('Country not found');
 
-  if (!country) {
-    throw new Error('Country not found');
-  }
+  const options = includeHidden === 'true' ? { includeHidden: 'true' } : {};
 
-  const restaurants = await Restaurant.find({
-    countryId: country._id.toString(), // Asegúrate de que la comparación sea con un String
-    highlighted: true,
-  }).sort({ priority: 1 });
-
-  return restaurants;
+  return await Restaurant.find(
+    { countryId: country._id.toString(), highlighted: true },
+    null,
+    options,
+  ).sort({ priority: 1 });
 };
 
-export const searchRestaurants = async (query, top_k = 20, detectedCity = null) => {
-  const pipeline = await buildVectorSearchPipeline(query, 'vector_index', top_k);
+export const searchRestaurants = async (
+  query,
+  top_k = 20,
+  detectedCity = null,
+  includeHidden = false,
+) => {
+  const pipeline = await buildVectorSearchPipeline(
+    query,
+    'vector_index',
+    top_k,
+  );
   if (!pipeline) return [];
 
   const isKosherQuery = query.toLowerCase().includes('kosher');
 
-  if (isKosherQuery) {
-    pipeline.push({ $match: { kosherBoolean: true } });
-  }
-
+  if (isKosherQuery) pipeline.push({ $match: { kosherBoolean: true } });
   if (detectedCity) {
     const cityId = await getCityIdByName(detectedCity);
-    if (cityId) {
-      pipeline.push({ $match: { city: cityId } });
-    }
+    if (cityId) pipeline.push({ $match: { city: cityId } });
+  }
+
+  if (includeHidden !== 'true') {
+    pipeline.push({ $match: { hide: { $ne: true } } });
   }
 
   try {

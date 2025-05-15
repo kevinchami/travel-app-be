@@ -1,14 +1,23 @@
 export const addHideFilterMiddleware = schema => {
-    // Aplica a todas las queries find y findOne (también sirve para findById porque internamente es findOne)
     const autoHideFilter = function (next) {
-      if (!this.getQuery().hasOwnProperty('hide')) {
+      const options = this.getOptions?.() || {};
+      const query = this.getQuery();
+  
+      // Revisa si el request vino con includeHidden desde req.query
+      if (options?.['$queryOptions']?.includeHidden === 'true' || options.includeHidden === 'true') {
+        return next();
+      }
+  
+      if (!query.hasOwnProperty('hide')) {
         this.where({ hide: { $ne: true } });
       }
+  
       next();
     };
   
     schema.pre('find', autoHideFilter);
     schema.pre('findOne', autoHideFilter);
-    schema.pre('findOneAndUpdate', autoHideFilter);
+    // schema.pre('findOneAndUpdate', autoHideFilter);
     schema.pre('countDocuments', autoHideFilter);
   };
+  

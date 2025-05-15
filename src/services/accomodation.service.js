@@ -44,19 +44,25 @@ export const addAccommodationToCity = async (
   return newAccommodation;
 };
 
-export const getAccommodations = async () => {
-  const accommodations = await Accommodation.find();
-  return accommodations;
+export const getAccommodations = async (includeHidden = false) => {
+  const options = includeHidden === 'true' ? { includeHidden: 'true' } : {};
+  return await Accommodation.find({}, null, options);
 };
 
-export const getAccommodationById = async accommodationId => {
-  const accommodation = await Accommodation.findById(accommodationId);
-  return accommodation;
+export const getAccommodationById = async (
+  accommodationId,
+  includeHidden = false,
+) => {
+  const options = includeHidden === 'true' ? { includeHidden: 'true' } : {};
+  return await Accommodation.findById(accommodationId, null, options);
 };
 
-export const getAccommodationsByCity = async cityId => {
-  const accommodations = await Accommodation.find({ city: cityId });
-  return accommodations;
+export const getAccommodationsByCity = async (
+  cityId,
+  includeHidden = false,
+) => {
+  const options = includeHidden === 'true' ? { includeHidden: 'true' } : {};
+  return await Accommodation.find({ city: cityId }, null, options);
 };
 
 export const removeAccommodationById = async accommodationId => {
@@ -73,33 +79,28 @@ export const updateAccommodation = async (accommodationId, updatedData) => {
   return updatedAccommodation;
 };
 
-export const filterAccommodationsByCountry = async countryName => {
-  // Assuming you have a field named 'name' in your Country model
+export const filterAccommodationsByCountry = async (
+  countryName,
+  includeHidden = false,
+) => {
   const country = await Country.findOne({ name: countryName });
+  if (!country) return [];
 
-  if (!country) {
-    // Handle the case where the country doesn't exist
-    return [];
-  }
-
-  // Now, use the obtained country._id to filter accommodations
-  const accommodations = await Accommodation.find({ countryId: country._id });
-
-  return accommodations;
+  const options = includeHidden === 'true' ? { includeHidden: 'true' } : {};
+  return await Accommodation.find({ countryId: country._id }, null, options);
 };
 
-export const filterHighlightAccommodationsByCountry = async countryName => {
+export const filterHighlightAccommodationsByCountry = async (
+  countryName,
+  includeHidden = false,
+) => {
   const country = await Country.findOne({ name: countryName });
+  if (!country) return [];
 
-  if (!country) {
-    return [];
-  }
-
-  // Filtrar por countryId y highlighted, y ordenar por priority
-  const accommodations = await Accommodation.find({
-    countryId: country._id,
-    highlighted: true, // Filtrar por alojamientos destacados
-  }).sort({ priority: 1 }); // Ordenar por priority en orden ascendente (1) o descendente (-1)
-
-  return accommodations;
+  const options = includeHidden === 'true' ? { includeHidden: 'true' } : {};
+  return await Accommodation.find(
+    { countryId: country._id, highlighted: true },
+    null,
+    options,
+  ).sort({ priority: 1 });
 };

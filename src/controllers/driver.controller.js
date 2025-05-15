@@ -8,19 +8,22 @@ export const addDriver = async (req, res) => {
 };
 
 export const getDrivers = async (req, res) => {
-  const drivers = await driverService.getDrivers();
+  const { includeHidden } = req.query;
+  const drivers = await driverService.getDrivers(includeHidden);
   return res.status(200).json(drivers);
 };
 
 export const getDriverById = async (req, res) => {
   const { driverId } = req.params;
-  const driver = await driverService.getDriverById(driverId);
+  const { includeHidden } = req.query;
+  const driver = await driverService.getDriverById(driverId, includeHidden);
   return res.status(200).json(driver);
 };
 
 export const getDriversByCity = async (req, res) => {
   const { cityId } = req.params;
-  const drivers = await driverService.getDriversByCity(cityId);
+  const { includeHidden } = req.query;
+  const drivers = await driverService.getDriversByCity(cityId, includeHidden);
   return res.status(200).json(drivers);
 };
 

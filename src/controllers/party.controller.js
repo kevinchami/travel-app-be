@@ -6,13 +6,15 @@ export const addParty = async (req, res) => {
 };
 
 export const getParties = async (req, res) => {
-  const parties = await partyService.getParties();
+  const { includeHidden } = req.query;
+  const parties = await partyService.getParties(includeHidden);
   return res.status(200).json(parties);
 };
 
 export const getPartyById = async (req, res) => {
   const { partyId } = req.params;
-  const party = await partyService.getPartyById(partyId);
+  const { includeHidden } = req.query;
+  const party = await partyService.getPartyById(partyId, includeHidden);
   return res.status(200).json(party);
 };
 
@@ -24,7 +26,8 @@ export const removePartyById = async (req, res) => {
 
 export const getPartiesByCity = async (req, res) => {
   const { cityId } = req.params;
-  const parties = await partyService.getPartiesByCity(cityId);
+  const { includeHidden } = req.query;
+  const parties = await partyService.getPartiesByCity(cityId, includeHidden);
   return res.status(200).json(parties);
 };
 
@@ -37,11 +40,14 @@ export const updateParty = async (req, res) => {
 
 export const getHighlightedPartyByCountry = async (req, res) => {
   const { countryName } = req.params;
+  const { includeHidden } = req.query;
 
   try {
-    const tours =
-      await partyService.getHighlightedPartiesByCountry(countryName);
-    return res.status(200).json(tours);
+    const parties = await partyService.getHighlightedPartiesByCountry(
+      countryName,
+      includeHidden,
+    );
+    return res.status(200).json(parties);
   } catch (error) {
     console.error('Error fetching highlighted parties by country:', error);
     return res.status(500).json({ error: 'Internal Server Error' });

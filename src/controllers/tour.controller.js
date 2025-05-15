@@ -21,7 +21,8 @@ export const addTourToCity = async (req, res) => {
 
 export const getTours = async (req, res) => {
   try {
-    const tours = await tourService.getTours();
+    const { includeHidden } = req.query;
+    const tours = await tourService.getTours(includeHidden);
     return res.status(200).json(tours);
   } catch (error) {
     throw new Error('Failed to fetch tours');
@@ -31,13 +32,13 @@ export const getTours = async (req, res) => {
 export const getTourById = async (req, res) => {
   try {
     const { tourId } = req.params;
-    const tour = await tourService.getTourById(tourId);
+    const { includeHidden } = req.query;
+    const tour = await tourService.getTourById(tourId, includeHidden);
     return res.status(200).json(tour);
   } catch (error) {
     throw new Error('Tour not found');
   }
 };
-
 export const removeTourById = async (req, res) => {
   try {
     const { tourId } = req.params;
@@ -62,7 +63,8 @@ export const updateTour = async (req, res) => {
 export const getToursByCity = async (req, res) => {
   try {
     const { cityId } = req.params;
-    const tours = await tourService.getToursByCity(cityId);
+    const { includeHidden } = req.query;
+    const tours = await tourService.getToursByCity(cityId, includeHidden);
     return res.status(200).json(tours);
   } catch (error) {
     throw new Error('Failed to fetch tours by city');
@@ -71,12 +73,16 @@ export const getToursByCity = async (req, res) => {
 
 export const getHighlightedTourByCountry = async (req, res) => {
   const { countryName } = req.params;
+  const { includeHidden } = req.query;
 
   try {
-    const tours = await tourService.getHighlightedToursByCountry(countryName);
+    const tours = await tourService.getHighlightedToursByCountry(
+      countryName,
+      includeHidden,
+    );
     return res.status(200).json(tours);
   } catch (error) {
-    console.error('Error fetching highlighted restaurants by country:', error);
+    console.error('Error fetching highlighted tours by country:', error);
     return res.status(500).json({ error: 'Internal Server Error' });
   }
 };

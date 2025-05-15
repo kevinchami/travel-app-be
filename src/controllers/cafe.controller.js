@@ -10,21 +10,24 @@ export const addCafe = async (req, res) => {
 
 // Get all cafes
 export const getCafes = async (req, res) => {
-  const cafes = await cafeService.getCafes();
+  const { includeHidden } = req.query;
+  const cafes = await cafeService.getCafes(includeHidden);
   return res.status(200).json(cafes);
 };
 
 // Get cafe by ID
 export const getCafeById = async (req, res) => {
   const { cafeId } = req.params;
-  const cafe = await cafeService.getCafeById(cafeId);
+  const { includeHidden } = req.query;
+  const cafe = await cafeService.getCafeById(cafeId, includeHidden);
   return res.status(200).json(cafe);
 };
 
 // Get cafes by city
 export const getCafesByCity = async (req, res) => {
   const { cityId } = req.params;
-  const cafes = await cafeService.getCafesByCity(cityId);
+  const { includeHidden } = req.query;
+  const cafes = await cafeService.getCafesByCity(cityId, includeHidden);
   return res.status(200).json(cafes);
 };
 
