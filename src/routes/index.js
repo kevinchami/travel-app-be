@@ -55,6 +55,7 @@ import featureFlagRoutes from './featureFlag.route.js';
 import searchRoutes from './search.route.js';
 import translationRoutes from './translation.route.js';
 import supermarketRoutes from './supermarket.route.js';
+import kosherlisrRoutes from './kosherlist.route.js';
 
 const router = Router();
 
@@ -79,5 +80,6 @@ router.use('/api/featureFlag', featureFlagRoutes);
 router.use('/api/search', searchRoutes);
 router.use('/api/translation', translationRoutes);
 router.use('/api/supermarket', supermarketRoutes);
+router.use('/api/kosherlist', kosherlisrRoutes);
 
 export default router;

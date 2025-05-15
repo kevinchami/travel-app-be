@@ -21,3 +21,4 @@ export * as featureFlagService from './featureFlag.service.js';
 export * as searchService from './search.service.js';
 export * as translationService from './translation.service.js';
 export * as supermarketService from './supermarket.service.js'
+export * as kosherlistService from './kosherlist.service.js'
