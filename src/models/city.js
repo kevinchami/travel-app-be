@@ -32,6 +32,7 @@ const citySchema = new Schema(
     tours: [{ type: Schema.Types.ObjectId, ref: 'Tour', required: false }],
     temples: [{ type: Schema.Types.ObjectId, ref: 'Temple', required: false }],
     hide: {type: Boolean, required: false},
+    type: {type: String, required: false},
     restaurants: [{ type: Schema.Types.ObjectId, ref: 'Restaurant', required: false }],
     priority: { type: Number, required: false },
     accommodations: [{ type: Schema.Types.ObjectId, ref: 'Accommodation', required: false }], // Reference to the Accommodation model

@@ -9,6 +9,7 @@ const countrySchema = new Schema(
     priority: { type: Number, required: false },
     available: { type: Boolean, required: false },
     flagUrl: { type: String, required: false },
+    type: {type: String, required: false},
     image: {
       url: String,
       key: String,
