@@ -31,3 +31,9 @@ export const deleteList = async (req, res) => {
   if (!deletedList) throw new Error('List not found');
   return res.status(200).json(deletedList);
 };
+
+export const getListsByCountry = async (req, res) => {
+  const { countryId } = req.params;
+  const lists = await kosherlistService.getListsByCountry(countryId);
+  return res.status(200).json(lists);
+};
