@@ -19,3 +19,7 @@ export const updateList = async (listId, updatedData) => {
 export const deleteList = async listId => {
   return await KosherList.findByIdAndDelete(listId);
 };
+
+export const getListsByCountry = async (countryId) => {
+  return await KosherList.find({ country: countryId });
+};
