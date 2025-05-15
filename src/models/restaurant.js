@@ -11,18 +11,26 @@ const RestaurantSchema = new Schema(
     menuUrl: { type: String, required: false },
     personalOpinion: { type: String, required: false },
     mapsUrl: { type: String, required: false },
-    hide: {type: Boolean, required: false},
-    kosherBoolean: { type: Boolean, required: false},
-    bookingNeeded: { type: Boolean, required: false},
+    hide: { type: Boolean, required: false },
+    kosherBoolean: { type: Boolean, required: false },
+    bookingNeeded: { type: Boolean, required: false },
     priority: { type: Number, required: false },
     highlighted: { type: Boolean, required: false, default: false },
+    openingHours: [{ type: String, required: false }],
+    rating: { type: Number, required: false },
+    totalReviews: { type: Number, required: false },
+    topReviews: [
+      {
+        authorName: String,
+        text: String,
+        rating: Number,
+      },
+    ],
     embedding: [Number],
     category: {
       type: String,
-      enum: ['temple', 'tour', 'restaurant', 'accommodation'],
       required: false,
     },
-    rating: { type: Number, required: false },
     reviews: [
       {
         type: Schema.Types.ObjectId,
