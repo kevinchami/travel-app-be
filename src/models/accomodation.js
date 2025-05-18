@@ -5,12 +5,13 @@ const AccomodationSchema = new Schema(
   {
     countryId: { type: String, required: false },
     name: { type: String, required: true },
-    description: { type: String, required: true },
+    description: { type: String, required: false },
     textHebrew: { type: Boolean, required: false, default: false },
-    price: { type: Number, required: true },
+    price: { type: Number, required: false },
     guests: { type: Number, required: false },
+    kosherBoolean: {type: Boolean, required: false},
     priceDetail: { type: String, required: false },
-    priceShow: { type: Boolean, required: false, default: true },
+    priceShow: { type: Boolean, required: false, default: false },
     webUrl: { type: String, required: false },
     mapsUrl: { type: String, required: false },
     contact: { type: Number, required: false },
@@ -20,14 +21,27 @@ const AccomodationSchema = new Schema(
     highlighted: { type: Boolean, required: false, default: false },
     languages: {
       type: [String],
-      required: true,
+      required: false,
     },
     category: {
       type: String,
       enum: ['temple', 'tour', 'restaurant', 'accommodation'],
       required: false,
     },
-    //rating: { type: Number, required: false },
+    rating: { type: Number, required: false },
+    totalReviews: { type: Number, required: false },
+    topReviews: [
+      {
+        authorName: String,
+        text: String,
+        rating: Number,
+      },
+    ],
+    embedding: [Number],
+    category: {
+      type: String,
+      required: true,
+    },
     reviews: [
       {
         type: Schema.Types.ObjectId,

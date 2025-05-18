@@ -13,6 +13,7 @@ const SupermarketSchema = new Schema(
     hide: { type: Boolean, required: false },
     mapsUrl: { type: String, required: false },
     kosherBoolean: { type: Boolean, required: false },
+    allKosherBoolean: { type: Boolean, required: false },
     // bookingNeeded: { type: Boolean, required: false},
     priority: { type: Number, required: false },
     highlighted: { type: Boolean, required: false, default: false },
