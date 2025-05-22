@@ -56,6 +56,10 @@ const AccomodationSchema = new Schema(
       type: String,
       required: true,
     },
+    details: {
+      type: String,
+      required: false,
+    },
     city: {
       type: Schema.Types.ObjectId,
       ref: 'City',
