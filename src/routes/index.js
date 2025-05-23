@@ -56,6 +56,7 @@ import searchRoutes from './search.route.js';
 import translationRoutes from './translation.route.js';
 import supermarketRoutes from './supermarket.route.js';
 import kosherlisrRoutes from './kosherlist.route.js';
+import categoryRoutes from './category.route.js';
 
 const router = Router();
 
@@ -81,5 +82,6 @@ router.use('/api/search', searchRoutes);
 router.use('/api/translation', translationRoutes);
 router.use('/api/supermarket', supermarketRoutes);
 router.use('/api/kosherlist', kosherlisrRoutes);
+router.use('/api/category', categoryRoutes);
 
 export default router;
