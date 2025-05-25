@@ -21,6 +21,7 @@ const SupermarketSchema = new Schema(
     category: {
       type: String,
       required: false,
+      default: 'supermarket',
     },
     rating: { type: Number, required: false },
     reviews: [
@@ -33,7 +34,11 @@ const SupermarketSchema = new Schema(
     neighborhood: { type: String, required: false },
     type: {
       type: String,
-      required: true,
+      required: false,
+    },
+    details: {
+      type: String,
+      required: false,
     },
     city: {
       type: Schema.Types.ObjectId,

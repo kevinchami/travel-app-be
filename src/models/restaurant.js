@@ -30,6 +30,7 @@ const RestaurantSchema = new Schema(
     category: {
       type: String,
       required: false,
+      default: 'restaurant',
     },
     reviews: [
       {
@@ -42,6 +43,10 @@ const RestaurantSchema = new Schema(
     type: {
       type: String,
       required: true,
+    },
+    details: {
+      type: String,
+      required: false,
     },
     city: {
       type: Schema.Types.ObjectId,

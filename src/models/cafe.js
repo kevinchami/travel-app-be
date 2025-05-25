@@ -21,6 +21,7 @@ const CafeSchema = new Schema(
       type: String,
       enum: ['temple', 'tour', 'restaurant', 'accommodation', 'cafe'],
       required: false,
+      default: 'restaurant',
     },
     coordinates: {
       latitude: { type: Number, required: false },
@@ -38,6 +39,10 @@ const CafeSchema = new Schema(
     type: {
       type: String,
       required: true,
+    },
+    details: {
+      type: String,
+      required: false,
     },
     city: {
       type: Schema.Types.ObjectId,

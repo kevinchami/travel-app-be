@@ -19,6 +19,7 @@ const TempleSchema = new Schema(
       type: String,
       enum: ['temple', 'tour', 'restaurant', 'accommodation'],
       required: false,
+      default: 'temple',
     },
     type: {
       type: String,

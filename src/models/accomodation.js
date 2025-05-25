@@ -43,6 +43,7 @@ const AccomodationSchema = new Schema(
     category: {
       type: String,
       required: true,
+      default: 'accommodation',
     },
     reviews: [
       {

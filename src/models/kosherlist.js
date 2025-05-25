@@ -8,6 +8,11 @@ const listSchema = new Schema(
     url: { type: String, required: false },
     available: { type: Boolean, required: false },
     hide: { type: Boolean, required: false },
+    category: {
+      type: String,
+      required: false,
+      default: 'kosherlist',
+    },
     country: {
       type: Schema.Types.ObjectId,
       ref: 'Country',
