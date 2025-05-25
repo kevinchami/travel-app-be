@@ -77,3 +77,19 @@ export const getHighlightedToursByCountry = async (
 
   return await Tour.find(filter).sort({ priority: 1 });
 };
+
+export const getHighlightedToursByCity = async (
+  cityId,
+  includeHidden = false,
+) => {
+  const filter = {
+    city: cityId,
+    highlighted: true,
+  };
+
+  if (includeHidden !== 'true') {
+    filter.hide = { $ne: true };
+  }
+
+  return await Tour.find(filter).sort({ priority: 1 });
+};

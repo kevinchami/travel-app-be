@@ -25,4 +25,9 @@ router.get(
   safe(tourController.getHighlightedTourByCountry),
 );
 
+router.get(
+  '/gethighlightedtoursbycity/:cityId',
+  safe(tourController.getHighlightedToursByCity),
+);
+
 export default router;

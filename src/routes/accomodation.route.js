@@ -44,4 +44,9 @@ router.get(
   safe(accommodationController.filterHighlightAccommodationsByCountry),
 );
 
+router.get(
+  '/gethighlightedaccommodationsbycity/:cityId',
+  safe(accommodationController.filterHighlightAccommodationsByCity),
+);
+
 export default router;

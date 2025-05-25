@@ -74,6 +74,22 @@ export const getHighlightedRestaurantsByCountry = async (req, res) => {
   }
 };
 
+export const getHighlightedRestaurantsByCity = async (req, res) => {
+  const { cityId } = req.params;
+  const { includeHidden } = req.query;
+
+  try {
+    const restaurants = await restaurantService.getHighlightedRestaurantsByCity(
+      cityId,
+      includeHidden,
+    );
+    return res.status(200).json(restaurants);
+  } catch (error) {
+    console.error('Error fetching highlighted restaurants by city:', error);
+    return res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
 export const searchRestaurants = async (req, res) => {
   const { query, top_k = 20, detectedCity = null } = req.body;
   const { includeHidden } = req.query;

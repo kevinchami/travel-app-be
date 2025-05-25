@@ -36,4 +36,9 @@ router.get(
   safe(restaurantController.getHighlightedRestaurantsByCountry),
 );
 
+router.get(
+  '/gethighlightedrestaurantsbycity/:cityId',
+  safe(restaurantController.getHighlightedRestaurantsByCity),
+);
+
 export default router;

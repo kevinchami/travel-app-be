@@ -25,4 +25,9 @@ router.put('/updatecafe/:cafeId', safe(cafeController.updateCafe));
 // Add a new route to get distinct types for filtering cafes
 router.get('/getdistinctcafetypes', safe(cafeController.getDistinctCafeTypes));
 
+router.get(
+  '/gethighlightedcafesbycity/:cityId',
+  safe(cafeController.getHighlightedCafesByCity),
+);
+
 export default router;

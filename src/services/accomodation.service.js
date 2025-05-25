@@ -104,3 +104,16 @@ export const filterHighlightAccommodationsByCountry = async (
     options,
   ).sort({ priority: 1 });
 };
+
+export const filterHighlightAccommodationsByCity = async (
+  cityId,
+  includeHidden = false,
+) => {
+  const options = includeHidden === 'true' ? { includeHidden: 'true' } : {};
+
+  return await Accommodation.find(
+    { city: cityId, highlighted: true },
+    null,
+    options,
+  ).sort({ priority: 1 });
+};

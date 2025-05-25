@@ -36,4 +36,9 @@ router.get(
   safe(supermarketController.getHighlightedSupermarketsByCountry),
 );
 
+router.get(
+  '/gethighlightedsupermarketsbycity/:cityId',
+  safe(supermarketController.getHighlightedSupermarketsByCity),
+);
+
 export default router;

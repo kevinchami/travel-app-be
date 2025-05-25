@@ -107,6 +107,19 @@ export const getHighlightedRestaurantsByCountry = async (
   ).sort({ priority: 1 });
 };
 
+export const getHighlightedRestaurantsByCity = async (
+  cityId,
+  includeHidden = false,
+) => {
+  const options = includeHidden === 'true' ? { includeHidden: 'true' } : {};
+
+  return await Restaurant.find(
+    { city: cityId, highlighted: true },
+    null,
+    options,
+  ).sort({ priority: 1 });
+};
+
 export const searchRestaurants = async (
   query,
   top_k = 20,

@@ -56,3 +56,19 @@ export const getDistinctCafeTypes = async (req, res) => {
     return res.status(500).json({ error: 'Internal Server Error' });
   }
 };
+
+export const getHighlightedCafesByCity = async (req, res) => {
+  const { cityId } = req.params;
+  const { includeHidden } = req.query;
+
+  try {
+    const cafes = await cafeService.getHighlightedCafesByCity(
+      cityId,
+      includeHidden,
+    );
+    return res.status(200).json(cafes);
+  } catch (error) {
+    console.error('❌ Error fetching highlighted cafes by city:', error);
+    return res.status(500).json({ error: 'Internal Server Error' });
+  }
+};

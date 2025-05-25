@@ -118,3 +118,19 @@ export const filterHighlightAccommodationsByCountry = async (req, res) => {
     return res.status(500).json({ message: 'Internal server error' });
   }
 };
+export const filterHighlightAccommodationsByCity = async (req, res) => {
+  const { cityId } = req.params;
+  const { includeHidden } = req.query;
+
+  try {
+    const accommodations =
+      await accommodationService.filterHighlightAccommodationsByCity(
+        cityId,
+        includeHidden,
+      );
+    return res.status(200).json(accommodations);
+  } catch (error) {
+    console.error('Error filtering highlighted accommodations by city:', error);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+};

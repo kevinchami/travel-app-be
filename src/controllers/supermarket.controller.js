@@ -15,7 +15,8 @@ export const getSupermarkets = async (req, res) => {
 // Get supermarket by ID
 export const getSupermarketById = async (req, res) => {
   const { supermarketId } = req.params;
-  const supermarket = await supermarketService.getSupermarketById(supermarketId);
+  const supermarket =
+    await supermarketService.getSupermarketById(supermarketId);
   return res.status(200).json(supermarket);
 };
 
@@ -80,6 +81,19 @@ export const searchSupermarkets = async (req, res) => {
     return res.status(200).json(results);
   } catch (error) {
     console.error('❌ Error en búsqueda de supermercados:', error);
+    return res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+export const getHighlightedSupermarketsByCity = async (req, res) => {
+  const { cityId } = req.params;
+
+  try {
+    const supermarkets =
+      await supermarketService.getHighlightedSupermarketsByCity(cityId);
+    return res.status(200).json(supermarkets);
+  } catch (error) {
+    console.error('❌ Error getting highlighted supermarkets by city:', error);
     return res.status(500).json({ error: 'Internal Server Error' });
   }
 };

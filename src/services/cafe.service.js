@@ -123,3 +123,19 @@ export const searchCafes = async (
     return [];
   }
 };
+
+export const getHighlightedCafesByCity = async (
+  cityId,
+  includeHidden = false,
+) => {
+  const filter = {
+    city: cityId,
+    highlighted: true,
+  };
+
+  if (includeHidden !== 'true') {
+    filter.hide = { $ne: true };
+  }
+
+  return await Cafe.find(filter).sort({ priority: 1 });
+};
