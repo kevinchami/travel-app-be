@@ -18,6 +18,7 @@ const SupermarketSchema = new Schema(
     priority: { type: Number, required: false },
     highlighted: { type: Boolean, required: false, default: false },
     embedding: [Number],
+    openingHours: [{ type: String, required: false }],
     category: {
       type: String,
       required: false,
