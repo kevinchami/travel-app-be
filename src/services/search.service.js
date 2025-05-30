@@ -137,7 +137,7 @@ export const simpleSearchInMongoDB = async (
   limitPerCollection = 50,
   modelName = null,
 ) => {
-  console.log('model!!',modelName);
+  console.log('model!!', modelName);
   const results = [];
   const fuzzyRegex = query.split('').join('.*');
   const hasQuery = query && query.trim() !== '';
@@ -221,7 +221,8 @@ export const getTypesByCollection = async collectionName => {
     throw new Error(`Invalid collection name: ${collectionName}`);
   }
 
-  const types = await model.distinct('type');
+  const types = await model.distinct('type', { hide: { $ne: true } });
+
   return types;
 };
 
