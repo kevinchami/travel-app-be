@@ -1,6 +1,7 @@
 import Accommodation from '../models/accomodation.js';
 import City from '../models/city.js';
 import Country from '../models/country.js';
+import { cleanTypes } from './search.service.js';
 
 export const addAccommodation = async accommodationData => {
   const accommodation = await Accommodation.create(accommodationData);
@@ -116,4 +117,12 @@ export const filterHighlightAccommodationsByCity = async (
     null,
     options,
   ).sort({ priority: 1 });
+};
+
+export const getAllAccommodationDetails = async () => {
+  const rawDetails = await Accommodation.distinct('details', {
+    hide: { $ne: true },
+  });
+  const cleanedDetails = cleanTypes(rawDetails);
+  return cleanedDetails;
 };

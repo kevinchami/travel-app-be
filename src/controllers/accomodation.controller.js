@@ -134,3 +134,13 @@ export const filterHighlightAccommodationsByCity = async (req, res) => {
     return res.status(500).json({ message: 'Internal server error' });
   }
 };
+
+export const getAllAccommodationDetails = async (req, res) => {
+  try {
+    const details = await accommodationService.getAllAccommodationDetails();
+    return res.status(200).json(details);
+  } catch (error) {
+    console.error('Error fetching accommodation details list:', error);
+    return res.status(500).json({ error: 'Internal server error' });
+  }
+};

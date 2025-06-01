@@ -97,10 +97,10 @@ export const searchInMongoDB = async (query, top_k = 10) => {
   console.log(`🔍 Resultados combinados: ${combinedResults.length}`);
   return combinedResults;
 };
-
 const buildFilterConditions = filters => {
   const conditions = [];
 
+  // Mantener lógica existente
   if (filters.highlighted !== undefined) {
     conditions.push({ highlighted: filters.highlighted });
   }
@@ -115,6 +115,17 @@ const buildFilterConditions = filters => {
       $or: regexArray.map(regex => ({ type: regex })),
     });
   }
+  // Filtro Details
+  if (
+    filters.details &&
+    Array.isArray(filters.details) &&
+    filters.details.length > 0
+  ) {
+    const regexArray = filters.details.map(detail => new RegExp(detail, 'i'));
+    conditions.push({
+      $or: regexArray.map(regex => ({ details: regex })),
+    });
+  }
 
   if (filters.neighborhood) {
     conditions.push({ neighborhood: filters.neighborhood });
@@ -122,6 +133,49 @@ const buildFilterConditions = filters => {
 
   if (filters.bookingNeeded !== undefined) {
     conditions.push({ bookingNeeded: filters.bookingNeeded });
+  }
+  // AGREGAR NUEVOS FILTROS:
+
+  // Filtro JFLEX
+  if (filters.jflex && Array.isArray(filters.jflex)) {
+    if (filters.jflex.includes('Only JFLEX')) {
+      conditions.push({ textHebrew: true });
+    }
+  }
+
+  // Filtro Highlighted (desde array)
+  if (filters.highlighted && Array.isArray(filters.highlighted)) {
+    if (filters.highlighted.includes('Only Highlighted')) {
+      conditions.push({ highlighted: true });
+    }
+  }
+
+  // Filtro Rating
+  if (filters.rating && Array.isArray(filters.rating)) {
+    const ratingConditions = [];
+    filters.rating.forEach(rating => {
+      if (rating === '4+') ratingConditions.push({ rating: { $gte: 4 } });
+      if (rating === '4.5+') ratingConditions.push({ rating: { $gte: 4.5 } });
+      if (rating === '5') ratingConditions.push({ rating: { $eq: 5 } });
+    });
+
+    if (ratingConditions.length > 0) {
+      conditions.push({ $or: ratingConditions });
+    }
+  }
+
+  // Filtro Kosher
+  if (filters.kosherBoolean && Array.isArray(filters.kosherBoolean)) {
+    if (filters.kosherBoolean.includes('Kosher Only')) {
+      conditions.push({ kosherBoolean: true });
+    }
+  }
+  // Filtro por details (campo de texto, se usa regex para coincidencias parciales)
+  if (filters.details && Array.isArray(filters.details)) {
+    const regexArray = filters.details.map(d => new RegExp(d, 'i'));
+    conditions.push({
+      $or: regexArray.map(regex => ({ details: regex })),
+    });
   }
 
   if (conditions.length === 0) {

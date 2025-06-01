@@ -49,4 +49,9 @@ router.get(
   safe(accommodationController.filterHighlightAccommodationsByCity),
 );
 
+router.get(
+  '/details/list',
+  safe(accommodationController.getAllAccommodationDetails),
+);
+
 export default router;
