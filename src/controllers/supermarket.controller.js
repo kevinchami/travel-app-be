@@ -23,7 +23,11 @@ export const getSupermarketById = async (req, res) => {
 // Get supermarkets by city
 export const getSupermarketsByCity = async (req, res) => {
   const { cityId } = req.params;
-  const supermarkets = await supermarketService.getSupermarketsByCity(cityId);
+  const supermarkets = await supermarketService.getSupermarketsByCity(
+    cityId,
+    includeHidden,
+    fallback,
+  );
   return res.status(200).json(supermarkets);
 };
 
@@ -87,10 +91,15 @@ export const searchSupermarkets = async (req, res) => {
 
 export const getHighlightedSupermarketsByCity = async (req, res) => {
   const { cityId } = req.params;
+  const { includeHidden, fallback } = req.query;
 
   try {
     const supermarkets =
-      await supermarketService.getHighlightedSupermarketsByCity(cityId);
+      await supermarketService.getHighlightedSupermarketsByCity(
+        cityId,
+        includeHidden,
+        fallback === 'true',
+      );
     return res.status(200).json(supermarkets);
   } catch (error) {
     console.error('❌ Error getting highlighted supermarkets by city:', error);

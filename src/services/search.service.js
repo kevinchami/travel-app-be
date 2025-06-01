@@ -139,7 +139,7 @@ const buildFilterConditions = filters => {
   // Filtro JFLEX
   if (filters.jflex && Array.isArray(filters.jflex)) {
     if (filters.jflex.includes('Only JFLEX')) {
-      conditions.push({ textHebrew: true });
+      conditions.push({ kosherBoolean: true });
     }
   }
 
