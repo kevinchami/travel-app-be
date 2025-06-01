@@ -1,16 +1,33 @@
 import Country from '../models/country.js';
 
 export const getCountries = async () => {
-  // Agregamos .sort para ordenar por 'priority'
-  const countries = await Country.find()
+  const availableCountries = await Country.find({ available: true })
     .populate({
       path: 'cities',
       select: 'name description',
     })
-    .sort({ priority: 1 }); // 1 para orden ascendente, -1 para descendente
+    .sort({ name: 1 });
 
-  return countries;
+  const unavailableCountries = await Country.find({ available: false })
+    .populate({
+      path: 'cities',
+      select: 'name description',
+    })
+    .sort({ name: 1 });
+
+  return [...availableCountries, ...unavailableCountries]; // ✅ solo retorno data
 };
+// export const getCountries = async () => {
+//   // Agregamos .sort para ordenar por 'priority'
+//   const countries = await Country.find()
+//     .populate({
+//       path: 'cities',
+//       select: 'name description',
+//     })
+//     .sort({ priority: 1 }); // 1 para orden ascendente, -1 para descendente
+
+//   return countries;
+// };
 
 export const getCountryById = async countryId => {
   const country = await Country.findById(countryId);

@@ -6,7 +6,11 @@ export const getCities = async (req, res) => {
 };
 
 export const getCitiesByCountry = async (req, res) => {
-  const { countryId } = req.params; // Assuming the country ID is provided in the URL params
+  const { countryId } = req.params;
+  if (!countryId) {
+    return res.status(400).json({ error: 'countryId is required' });
+  }
+
   const cities = await cityService.getCitiesByCountry(countryId);
   return res.status(200).json(cities);
 };
@@ -32,9 +36,6 @@ export const getCityIdByName = async (req, res) => {
   if (!cityId) {
     return res.status(404).json({ error: 'City not found' });
   }
-
-  console.log('city id', cityId);
-  
 
   return res.status(200).json({ cityId });
 };
