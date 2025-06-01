@@ -133,11 +133,15 @@ export const searchSupermarkets = async (
   }
 };
 
-export const getHighlightedSupermarketsByCity = async cityId => {
-  const supermarkets = await Supermarket.find({
-    city: cityId,
-    highlighted: true,
-  }).sort({ priority: 1 });
+export const getHighlightedSupermarketsByCity = async (
+  cityId,
+  includeHidden = false,
+) => {
+  const options = includeHidden === 'true' ? { includeHidden: 'true' } : {};
 
-  return supermarkets;
+  return await Supermarket.find(
+    { city: cityId, highlighted: true },
+    null,
+    options,
+  ).sort({ priority: 1 });
 };

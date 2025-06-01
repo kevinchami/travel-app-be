@@ -76,12 +76,13 @@ export const getHighlightedRestaurantsByCountry = async (req, res) => {
 
 export const getHighlightedRestaurantsByCity = async (req, res) => {
   const { cityId } = req.params;
-  const { includeHidden } = req.query;
+  const { includeHidden, fallback } = req.query;
 
   try {
     const restaurants = await restaurantService.getHighlightedRestaurantsByCity(
       cityId,
       includeHidden,
+      fallback === 'true' // convierte a booleano
     );
     return res.status(200).json(restaurants);
   } catch (error) {
