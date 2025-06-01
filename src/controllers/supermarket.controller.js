@@ -23,10 +23,10 @@ export const getSupermarketById = async (req, res) => {
 // Get supermarkets by city
 export const getSupermarketsByCity = async (req, res) => {
   const { cityId } = req.params;
+  const { includeHidden } = req.query;
   const supermarkets = await supermarketService.getSupermarketsByCity(
     cityId,
     includeHidden,
-    fallback,
   );
   return res.status(200).json(supermarkets);
 };

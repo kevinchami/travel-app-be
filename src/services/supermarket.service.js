@@ -31,8 +31,9 @@ export const getSupermarketById = async supermarketId => {
 };
 
 // Get supermarkets by city
-export const getSupermarketsByCity = async cityId => {
-  const supermarkets = await Supermarket.find({ city: cityId });
+export const getSupermarketsByCity =  async (cityId, includeHidden = false) => {
+  const options = includeHidden === 'true' ? { includeHidden: 'true' } : {};
+  const supermarkets = await Supermarket.find({ city: cityId }, null, options);
   if (!supermarkets) {
     throw new Error('Failed to fetch supermarkets by city');
   }
