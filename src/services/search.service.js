@@ -170,6 +170,14 @@ const buildFilterConditions = filters => {
       conditions.push({ kosherBoolean: true });
     }
   }
+
+  // Filtro por ciudad (city es un ObjectId en el schema)
+  if (filters.city && Array.isArray(filters.city) && filters.city.length > 0) {
+    conditions.push({
+      city: { $in: filters.city.map(id => id.toString()) },
+    });
+  }
+
   // Filtro por details (campo de texto, se usa regex para coincidencias parciales)
   if (filters.details && Array.isArray(filters.details)) {
     const regexArray = filters.details.map(d => new RegExp(d, 'i'));
