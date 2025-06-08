@@ -13,6 +13,8 @@ const RestaurantSchema = new Schema(
     mapsUrl: { type: String, required: false },
     hide: { type: Boolean, required: false },
     kosherBoolean: { type: Boolean, required: false },
+    vegan: { type: Boolean, required: false },
+    vegetarian: { type: Boolean, required: false },
     bookingNeeded: { type: Boolean, required: false },
     priority: { type: Number, required: false },
     highlighted: { type: Boolean, required: false, default: false },
