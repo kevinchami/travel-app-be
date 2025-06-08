@@ -1,4 +1,8 @@
 import { accommodationService } from '../services/index.js';
+import {
+  getDetailsInItems,
+  getTypesInItems,
+} from '../services/search.service.js';
 
 export const addAccommodation = async (req, res) => {
   const accommodation = await accommodationService.addAccommodation(req.body);
@@ -56,13 +60,30 @@ export const getAccommodationById = async (req, res) => {
   return res.status(200).json(accommodation);
 };
 
+// export const getAccommodationsByCity = async (req, res) => {
+//   const { cityId } = req.params;
+//   const { includeHidden } = req.query;
+//   const accommodations = await accommodationService.getAccommodationsByCity(
+//     cityId,
+//     includeHidden,
+//   );
+//   return res.status(200).json(accommodations);
+// };
 export const getAccommodationsByCity = async (req, res) => {
   const { cityId } = req.params;
-  const { includeHidden } = req.query;
+  const { includeHidden, returnTypesFromItems } = req.query;
+
   const accommodations = await accommodationService.getAccommodationsByCity(
     cityId,
     includeHidden,
   );
+
+  if (returnTypesFromItems === 'true') {
+    const types = getTypesInItems(accommodations);
+    const details = getDetailsInItems(accommodations);
+    return res.status(200).json({ accommodations, types, details });
+  }
+
   return res.status(200).json(accommodations);
 };
 

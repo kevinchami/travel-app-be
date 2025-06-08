@@ -7,6 +7,8 @@ import {
   getTypesByCollection,
   searchInMongoDB,
   simpleSearchInMongoDB,
+  getTypesInItems,
+  getDetailsInItems,
 } from '../services/search.service.js';
 
 export const search = async (req, res) => {
@@ -58,6 +60,38 @@ export const getTypes = async (req, res) => {
   } catch (error) {
     console.error('Error getting types:', error);
     return res.status(400).json({ error: error.message });
+  }
+};
+
+export const getTypesFromItems = async (req, res) => {
+  try {
+    const items = req.body.items;
+
+    if (!Array.isArray(items)) {
+      return res.status(400).json({ error: 'Items array is required in body' });
+    }
+
+    const cleanedTypes = getTypesInItems(items);
+    return res.status(200).json(cleanedTypes);
+  } catch (error) {
+    console.error('Error getting types from items:', error);
+    return res.status(500).json({ error: error.message });
+  }
+};
+
+export const getDetailsFromItems = async (req, res) => {
+  try {
+    const items = req.body.items;
+
+    if (!Array.isArray(items)) {
+      return res.status(400).json({ error: 'Items array is required in body' });
+    }
+
+    const details = getDetailsInItems(items);
+    return res.status(200).json(details);
+  } catch (error) {
+    console.error('Error getting details from items:', error);
+    return res.status(500).json({ error: error.message });
   }
 };
 

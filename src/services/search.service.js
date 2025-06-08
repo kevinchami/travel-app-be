@@ -13,6 +13,7 @@ import Accomodation from '../models/accomodation.js';
 import diacritics from 'diacritics';
 import { searchParties } from './party.service.js';
 import Must from '../models/must.js';
+import Supermarket from '../models/supermarket.js';
 
 dotenv.config();
 
@@ -24,6 +25,7 @@ const collections = {
   temple: Temple,
   accommodation: Accomodation,
   must: Must,
+  supermarket: Supermarket,
 };
 
 export const searchInMongoDB = async (query, top_k = 10) => {
@@ -171,6 +173,23 @@ const buildFilterConditions = filters => {
     }
   }
 
+  // Filtro específico para supermercados: All Kosher Only vs Kosher Products Available
+  if (filters.kosherBoolean && Array.isArray(filters.kosherBoolean)) {
+    const options = filters.kosherBoolean;
+
+    if (
+      options.includes('All Kosher Only') &&
+      options.includes('Kosher Products Available')
+    ) {
+      // NO agregamos ninguna condición acá. Solo se aplicará el filtro de city más abajo.
+      // No hagas nada
+    } else if (options.includes('All Kosher Only')) {
+      conditions.push({ allKosherBoolean: true });
+    } else if (options.includes('Kosher Products Available')) {
+      conditions.push({ allKosherBoolean: false, kosherBoolean: true });
+    }
+  }
+
   // Filtro por ciudad (city es un ObjectId en el schema)
   if (filters.city && Array.isArray(filters.city) && filters.city.length > 0) {
     conditions.push({
@@ -286,6 +305,21 @@ export const getTypesByCollection = async collectionName => {
   const types = await model.distinct('type', { hide: { $ne: true } });
 
   return types;
+};
+
+export const getTypesInItems = items => {
+  const rawTypesArray = items.map(item => item.type).filter(Boolean); // elimina null, undefined o ''
+
+  return cleanTypes(rawTypesArray);
+};
+
+export const getDetailsInItems = items => {
+  const rawDetailsArray = items.map(item => item.details).filter(Boolean);
+  const flattened = rawDetailsArray.flatMap(detail =>
+    detail.split(',').map(d => d.trim()),
+  );
+  const uniqueDetails = [...new Set(flattened)];
+  return uniqueDetails;
 };
 
 export const cleanNeighborhoods = rawNeighborhoodsArray => {

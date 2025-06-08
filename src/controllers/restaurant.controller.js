@@ -1,4 +1,8 @@
 import { restaurantService } from '../services/index.js';
+import {
+  getDetailsInItems,
+  getTypesInItems,
+} from '../services/search.service.js';
 
 export const addRestaurant = async (req, res) => {
   const restaurant = await restaurantService.addRestaurant(req.body);
@@ -21,13 +25,31 @@ export const getRestaurantById = async (req, res) => {
   return res.status(200).json(restaurant);
 };
 
+// export const getRestaurantsByCity = async (req, res) => {
+//   const { cityId } = req.params;
+//   const { includeHidden } = req.query;
+//   const restaurants = await restaurantService.getRestaurantsByCity(
+//     cityId,
+//     includeHidden,
+//   );
+//   return res.status(200).json(restaurants);
+// };
+
 export const getRestaurantsByCity = async (req, res) => {
   const { cityId } = req.params;
-  const { includeHidden } = req.query;
+  const { includeHidden, returnTypesFromItems } = req.query;
+
   const restaurants = await restaurantService.getRestaurantsByCity(
     cityId,
     includeHidden,
   );
+
+  if (returnTypesFromItems === 'true') {
+    const types = getTypesInItems(restaurants);
+    const details = getDetailsInItems(restaurants);
+    return res.status(200).json({ restaurants, types, details });
+  }
+
   return res.status(200).json(restaurants);
 };
 
@@ -82,7 +104,7 @@ export const getHighlightedRestaurantsByCity = async (req, res) => {
     const restaurants = await restaurantService.getHighlightedRestaurantsByCity(
       cityId,
       includeHidden,
-      fallback === 'true' // convierte a booleano
+      fallback === 'true', // convierte a booleano
     );
     return res.status(200).json(restaurants);
   } catch (error) {
