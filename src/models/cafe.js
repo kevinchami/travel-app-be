@@ -12,6 +12,7 @@ const CafeSchema = new Schema(
     menuUrl: { type: String, required: false },
     personalOpinion: { type: String, required: false },
     mapsUrl: { type: String, required: true },
+    vegan: { type: Boolean, required: false },
     kosherBoolean: { type: Boolean, required: true },
     bookingNeeded: { type: Boolean, required: false, default: false },
     hide: { type: Boolean, required: false },
