@@ -16,6 +16,7 @@ const CafeSchema = new Schema(
     kosherBoolean: { type: Boolean, required: true },
     bookingNeeded: { type: Boolean, required: false, default: false },
     hide: { type: Boolean, required: false },
+    openingHours: [{ type: String, required: false }],
     priority: { type: Number, required: false },
     highlighted: { type: Boolean, required: false, default: false },
     category: {
@@ -29,6 +30,14 @@ const CafeSchema = new Schema(
       longitude: { type: Number, required: false },
     },
     rating: { type: Number, required: false },
+    totalReviews: { type: Number, required: false },
+    topReviews: [
+      {
+        authorName: String,
+        text: String,
+        rating: Number,
+      },
+    ],
     reviews: [
       {
         type: Schema.Types.ObjectId,
