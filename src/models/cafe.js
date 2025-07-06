@@ -13,6 +13,8 @@ const CafeSchema = new Schema(
     personalOpinion: { type: String, required: false },
     mapsUrl: { type: String, required: true },
     vegan: { type: Boolean, required: false },
+    discount: { type: Boolean, required: false },
+    percentageDiscount: { type: Number, required: false },
     kosherBoolean: { type: Boolean, required: true },
     bookingNeeded: { type: Boolean, required: false, default: false },
     hide: { type: Boolean, required: false },
