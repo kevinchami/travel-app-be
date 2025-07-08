@@ -4,9 +4,13 @@ const CouponSchema = new Schema(
   {
     couponId: { type: String, required: true, unique: true },
     userId: { type: String, required: false },
-    restaurantId: { type: String, required: true },
+    itemId: { type: String, required: true },
     used: { type: Boolean, default: false },
+    usedAt: { type: Date },
+    usedByIp: { type: String },
+    userAgent: { type: String },
     createdAt: { type: Date, default: Date.now },
+    expiresAt: { type: Date, required: false },
   },
   { timestamps: true },
 );

@@ -15,6 +15,11 @@ const RestaurantSchema = new Schema(
     discount: { type: Boolean, required: false },
     percentageDiscount: { type: Number, required: false },
     kosherBoolean: { type: Boolean, required: false },
+    generationPolicy: {
+      type: String,
+      enum: ['daily', 'weekly', 'monthly'],
+      default: 'daily'
+    },
     vegan: { type: Boolean, required: false },
     vegetarian: { type: Boolean, required: false },
     bookingNeeded: { type: Boolean, required: false },
