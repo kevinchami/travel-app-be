@@ -13,6 +13,7 @@ const TourSchema = new Schema(
     hide: { type: Boolean, required: false },
     contact: { type: Number, required: false },
     discount: { type: Boolean, required: false },
+    verifiedByHuman: { type: Boolean, required: false },
     percentageDiscount: { type: Number, required: false },
     webUrl: { type: String, required: false },
     imageUrl: [{ type: String, required: true }],

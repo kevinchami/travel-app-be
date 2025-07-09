@@ -49,7 +49,12 @@ export const createCoupon = async ({ userId, itemId, category, couponId }) => {
     createdAt: { $gte: fromDate },
   });
 
-  if (existing) return existing;
+  if (existing) {
+    const now = new Date();
+    if (existing.used) return existing; // usado: no puede generar nuevo
+    if (existing.expiresAt && existing.expiresAt > now) return existing; // aún válido: no puede generar nuevo
+    // expirado pero no usado → sigue y genera uno nuevo
+  }
 
   // Crear nuevo
   return await Coupon.create({

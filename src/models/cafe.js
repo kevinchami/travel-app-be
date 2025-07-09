@@ -15,6 +15,7 @@ const CafeSchema = new Schema(
     vegan: { type: Boolean, required: false },
     discount: { type: Boolean, required: false },
     percentageDiscount: { type: Number, required: false },
+    verifiedByHuman: { type: Boolean, required: false },
     kosherBoolean: { type: Boolean, required: true },
     bookingNeeded: { type: Boolean, required: false, default: false },
     hide: { type: Boolean, required: false },

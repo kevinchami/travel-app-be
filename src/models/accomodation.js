@@ -13,6 +13,7 @@ const AccomodationSchema = new Schema(
     priceDetail: { type: String, required: false },
     priceShow: { type: Boolean, required: false, default: false },
     webUrl: { type: String, required: false },
+    verifiedByHuman: { type: Boolean, required: false },
     bookingUrl: { type: String, required: false },
     airbnbUrl: { type: String, required: false },
     discount: { type: Boolean, required: false },

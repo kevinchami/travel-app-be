@@ -12,6 +12,7 @@ const TempleSchema = new Schema(
     location: { type: String, required: true },
     hide: { type: Boolean, required: false },
     neighborhood: { type: String, required: false },
+    verifiedByHuman: { type: Boolean, required: false },
     mapsUrl: { type: String, required: false },
     shabbatfood: { type: Boolean, required: false },
     priority: { type: Number, required: false },
