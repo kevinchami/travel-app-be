@@ -50,6 +50,7 @@ const CafeSchema = new Schema(
     ],
     location: { type: String, required: true },
     neighborhood: { type: String, required: true },
+    address: { type: String, required: false },
     type: {
       type: String,
       required: true,

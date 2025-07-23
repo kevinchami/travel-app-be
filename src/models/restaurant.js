@@ -51,6 +51,7 @@ const RestaurantSchema = new Schema(
     ],
     location: { type: String, required: true },
     neighborhood: { type: String, required: false },
+    address: { type: String, required: false },
     type: {
       type: String,
       required: true,

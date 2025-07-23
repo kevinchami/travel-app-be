@@ -41,4 +41,14 @@ router.get(
   safe(restaurantController.getHighlightedRestaurantsByCity),
 );
 
+router.get(
+  '/getrestaurantswithdiscount',
+  safe(restaurantController.getRestaurantsWithDiscount),
+);
+
+router.get(
+  '/getrestaurantswithdiscountbycity/:cityId',
+  safe(restaurantController.getRestaurantsWithDiscountByCity),
+);
+
 export default router;
