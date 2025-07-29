@@ -17,6 +17,7 @@ const RestaurantSchema = new Schema(
     percentageDiscount: { type: Number, required: false },
     kosherBoolean: { type: Boolean, required: false },
     verifiedByHuman: { type: Boolean, required: false },
+    priceLevel: { type: Number, required: false },
     generationPolicy: {
       type: String,
       enum: ['daily', 'weekly', 'monthly'],

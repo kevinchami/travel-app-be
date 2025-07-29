@@ -14,6 +14,7 @@ const SupermarketSchema = new Schema(
     hide: { type: Boolean, required: false },
     mapsUrl: { type: String, required: false },
     discount: { type: Boolean, required: false },
+    priceLevel: { type: Number, required: false },
     percentageDiscount: { type: Number, required: false },
     verifiedByHuman: { type: Boolean, required: false },
     kosherBoolean: { type: Boolean, required: false },
