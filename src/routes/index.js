@@ -53,7 +53,7 @@ import mustRoutes from './must.route.js';
 import nearbyRoutes from './nearby.route.js';
 import featureFlagRoutes from './featureFlag.route.js';
 import searchRoutes from './search.route.js';
-import aiSearchRoutes from './aisearch.route.js';
+import aiSearchRoutes from './aiSearch.route.js';
 import translationRoutes from './translation.route.js';
 import supermarketRoutes from './supermarket.route.js';
 import kosherlisrRoutes from './kosherlist.route.js';
