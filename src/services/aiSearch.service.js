@@ -1,79 +1,133 @@
-// This module orchestrates the AI search across collections.
-// It calls per-collection services and merges results.
-// Replace internals with MongoDB Atlas Search or your Mongo queries later.
+import dotenv from 'dotenv';
+import { aiParseQuery } from './aiParsing.service.js';
+import { atlasSearchService } from './atlasSearch.service.js';
+import { searchInMongoDB, simpleSearchInMongoDB } from './search.service.js';
+import { collections } from '../models/index.js';
 
-import { searchRestaurants } from './restaurant.service.js';
-import { searchCafes } from './cafe.service.js';
-import { searchParties } from './party.service.js';
+dotenv.config();
 
-function uniqById(items) {
-  const seen = new Set();
-  const out = [];
-  for (const it of items) {
-    const id = String(it._id || it.id || '');
-    if (!seen.has(id)) {
-      seen.add(id);
-      out.push(it);
+const ATLAS_ENABLED = process.env.ATLAS_SEARCH_ENABLED === 'true' || false;
+
+export const aiSearchOrchestrator = async (intentOrText, top_k = 10) => {
+  const intent = typeof intentOrText === 'string' ? await aiParseQuery(intentOrText) : intentOrText;
+  const requestedTop = intent.top_n || top_k || 10;
+  const targetCollections = intent.category ? { [intent.category]: collections[intent.category] } : collections;
+  const results = [];
+
+  // Try Atlas Search first
+  if (ATLAS_ENABLED) {
+    for (const [name, model] of Object.entries(targetCollections)) {
+      if (!model) continue;
+      try {
+        const items = await atlasSearchService.runAtlasSearchForModel(model, intent, requestedTop);
+        items.forEach((it) => results.push(it));
+      } catch (err) {
+        console.warn(`Atlas search failed for ${name}:`, err.message || err);
+      }
     }
   }
-  return out;
-}
 
-export async function aiSearchOrchestrator(intent, topK = 10) {
-  // Dispatch by category first, but you can expand to multiple collections if category is null.
-  const tasks = [];
-
-  if (!intent.category || intent.category === 'restaurant') {
-    tasks.push(searchRestaurants({ intent, limit: topK }));
-  }
-  if (!intent.category || intent.category === 'cafe') {
-    tasks.push(searchCafes({ intent, limit: topK }));
-  }
-  if (!intent.category || intent.category === 'party') {
-    tasks.push(searchParties({ intent, limit: topK }));
+  // Fallback to MongoDB search if Atlas didn't return results
+  if (!results.length) {
+    try {
+      const fallback = await searchInMongoDB(intent.raw || intent.query || intent, requestedTop);
+      fallback.forEach((f) => results.push({ ...f, searchScore: f.searchScore || 0 }));
+    } catch (err) {
+      console.warn('Fallback searchInMongoDB failed:', err.message || err);
+    }
   }
 
-  const all = (await Promise.all(tasks)).flat();
-  // You can add a ranking function here, eg: searchScore desc, rating desc, totalReviews desc
-  const unique = uniqById(all);
-  return unique.slice(0, topK);
-}
+  // Deduplicate and rank results
+  const map = new Map();
+  for (const r of results) {
+    const key = r._id?.toString?.() || r._id;
+    if (!map.has(key)) {
+      map.set(key, r);
+    } else {
+      const existing = map.get(key);
+      if ((r.searchScore || 0) > (existing.searchScore || 0)) {
+        map.set(key, r);
+      }
+    }
+  }
 
-export async function simpleAiSearch({ query, filters, limit = 50, model = null }) {
-  // This is a thin wrapper. You may want to:
-  // 1) aiParseQuery(query) to extract city, cuisines, diet
-  // 2) translate filters into $match
-  // 3) call the best matching collection service
-  // For now, we return an empty array to keep the contract.
-  return [];
-}
+  const merged = Array.from(map.values());
+  const ranked = merged.sort((a, b) => {
+    const scoreA = (a.searchScore || 0) * 3 + (a.rating || 0) * 2 + (a.reviewsCount || 0) * 0.01;
+    const scoreB = (b.searchScore || 0) * 3 + (b.rating || 0) * 2 + (b.reviewsCount || 0) * 0.01;
+    return scoreB - scoreA;
+  });
 
-export async function getAllTypes({ collection = 'restaurant', city = null }) {
-  // TODO: aggregate distinct types from the target collection, optionally filtered by city
-  // Return a dummy consistent shape for now.
-  return [
-    { type: 'Pizza', count: 120 },
-    { type: 'Meat', count: 75 },
-    { type: 'Sushi', count: 64 },
-  ];
-}
+  return ranked.slice(0, requestedTop);
+};
 
-export async function getAllNeighborhoods({ city = null }) {
-  // TODO: aggregate distinct neighborhoods, optionally by city
-  return [
-    { neighborhood: 'Center', count: 88 },
-    { neighborhood: 'Downtown', count: 67 },
-    { neighborhood: 'Beach', count: 21 },
-  ];
-}
+export const simpleAiSearch = async ({ query = '', filters = {}, limit = 50, model = null }) => {
+  const hasQuery = query && query.trim().length > 0;
+  if (!hasQuery && (!filters || Object.keys(filters).length === 0)) return [];
 
-export async function getTypesFromItems(items = []) {
-  // Extract unique 'type' tokens from provided items
+  if (!ATLAS_ENABLED) return simpleSearchInMongoDB(query, filters, limit, model);
+
+  const lightweightIntent = { 
+    raw: query, 
+    filters, 
+    category: model || null,
+    top_n: limit
+  };
+
+  const collectionsToSearch = model ? { [model]: collections[model] } : collections;
+  let results = [];
+
+  for (const [name, collModel] of Object.entries(collectionsToSearch)) {
+    try {
+      const items = await atlasSearchService.runAtlasSearchForModel(collModel, lightweightIntent, limit);
+      items.forEach((it) => results.push(it));
+    } catch (err) {
+      console.warn('simpleAiSearch atlas run failed for', name, ':', err.message || err);
+      const fallback = await simpleSearchInMongoDB(query, filters, limit, name);
+      fallback.forEach((f) => results.push({ ...f, searchScore: f.searchScore || 0 }));
+    }
+  }
+
+  // Deduplicate and rank
+  const map = new Map();
+  for (const r of results) {
+    const key = r._id?.toString?.() || r._id;
+    if (!map.has(key)) {
+      map.set(key, r);
+    } else {
+      const existing = map.get(key);
+      if ((r.searchScore || 0) > (existing.searchScore || 0)) {
+        map.set(key, r);
+      }
+    }
+  }
+
+  const merged = Array.from(map.values()).sort((a, b) => (b.searchScore || 0) - (a.searchScore || 0));
+  return merged.slice(0, limit);
+};
+
+export const getAllTypes = async ({ collection = 'restaurant', city = null }) => {
+  const model = collections[collection];
+  if (!model) throw new Error(`Invalid collection ${collection}`);
+  const query = city ? { city } : {};
+  return model.distinct('type', query);
+};
+
+export const getAllNeighborhoods = async ({ city = null }) => {
+  const neighborhoods = new Set();
+  const candidates = [collections.restaurant, collections.cafe];
+  for (const model of candidates) {
+    const docs = await model.distinct('neighborhood', city ? { city } : {});
+    docs.forEach((d) => d && neighborhoods.add(d));
+  }
+  return Array.from(neighborhoods).sort();
+};
+
+export const getTypesFromItems = (items = []) => {
+  const rawTypesArray = items.map((i) => i.type).filter(Boolean);
   const set = new Set();
-  for (const it of items) {
-    const t = Array.isArray(it?.type) ? it.type : String(it?.type || '');
-    const parts = Array.isArray(t) ? t : t.split(',').map(s => s.trim()).filter(Boolean);
-    for (const p of parts) set.add(p);
-  }
+  rawTypesArray.forEach((t) => {
+    t.split(',').map((s) => s.trim()).filter(Boolean).forEach((s) => set.add(s));
+  });
   return Array.from(set).sort();
-}
+};
