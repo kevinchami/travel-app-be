@@ -21,7 +21,7 @@ const RestaurantSchema = new Schema(
     generationPolicy: {
       type: String,
       enum: ['daily', 'weekly', 'monthly'],
-      default: 'daily'
+      default: 'daily',
     },
     vegan: { type: Boolean, required: false },
     vegetarian: { type: Boolean, required: false },

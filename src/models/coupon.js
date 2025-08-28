@@ -20,3 +20,5 @@ CouponSchema.index({ couponId: 1 });
 const Coupon = model('Coupon', CouponSchema);
 
 export default Coupon;
+
+
