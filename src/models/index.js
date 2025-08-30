@@ -9,7 +9,7 @@ import Must from './must.js';
 import Activity from './activity.js';
 import Memorial from './memorial.js';
 
-export const collections = {
+const collections = {
   restaurant: Restaurant,
   cafe: Cafe,
   supermarket: Supermarket,
@@ -21,3 +21,5 @@ export const collections = {
   activity: Activity,
   memorial: Memorial,
 };
+
+export default collections;

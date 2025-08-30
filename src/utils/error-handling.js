@@ -6,14 +6,18 @@ export class Exception extends Error {
   }
 }
 
-export const safe = fn => async (req, res, next) => {
-  try {
-    await fn(req, res);
-  } catch (error) {
-    res.status(error?.status || 500).json({
-      message: error?.message || error || 'Internal Error',
-    });
-
-    next(error);
-  }
+export const safe = fn => {
+  return async (req, res, next) => {
+    try {
+      await fn(req, res, next);
+    } catch (error) {
+      console.error('Error in controller:', error);
+      res.status(500).json({
+        success: false,
+        error: 'Internal server error',
+        message:
+          process.env.NODE_ENV === 'development' ? error.message : undefined,
+      });
+    }
+  };
 };
