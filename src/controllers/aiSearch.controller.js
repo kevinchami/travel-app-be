@@ -1,89 +1,67 @@
-// controllers/aiSearchController.js
 import {
   unifiedSearch,
   unifiedSearchSimple,
-} from '../services/aiSearch.service.js';
+} from '../services/aiSearch.service.js'; // Confirm path
 import Restaurant from '../models/restaurant.js';
 import Cafe from '../models/cafe.js';
 import Supermarket from '../models/supermarket.js';
+import { CITIES } from '../constants/cities.js';
+import mongoose from 'mongoose';
 
 export const aiSearchController = {
   async search(req, res, next) {
     try {
-      console.log('Search request body:', req.body);
-      console.log('Search request query:', req.query);
-
-      const { q, query, types, city, cityId, limit = 20, page = 0 } = req.body;
-      const searchQuery = q || query;
-
-      if (!searchQuery || searchQuery.trim().length === 0) {
-        return res.status(400).json({ error: 'Empty query', results: [] });
+      console.log('Request body:', req.body); // Debug
+      const { query, types, city, limit = 20, page = 0 } = req.body;
+      if (!query || query.trim().length === 0) {
+        return res.status(400).json({ error: 'Empty query' });
       }
 
-      // Use city parameter (preferred) or fall back to cityId for backward compatibility
-      const cityFilter = city || cityId;
-
-      // Map plural types to singular for consistency
       const typesArray = (types || 'restaurant,cafe,supermarket')
         .split(',')
         .map(t => t.trim().toLowerCase())
-        .map(t => t.replace(/s$/, '')) // Convert 'restaurants' to 'restaurant', etc.
+        .map(t => t.replace(/s$/, ''))
         .filter(Boolean);
 
-      console.log('Processed search parameters:', {
-        searchQuery,
-        typesArray,
-        cityFilter,
-        limit,
-        page,
-      });
-
-      const results = await unifiedSearch(searchQuery, {
+      const results = await unifiedSearch(query, {
         types: typesArray,
-        city: cityFilter,
+        cityId: city, // Pass city as string, service converts to ObjectId
         limit: parseInt(limit, 10),
         page: parseInt(page, 10),
       });
 
-      console.log('Final results to send:', results);
       res.json({ ok: true, results });
     } catch (err) {
-      console.error('Error in search controller:', err);
-      res.status(500).json({ ok: false, error: err.message, results: [] });
+      console.error('Search error:', err); // Debug
+      next(err);
     }
   },
 
   async searchSimple(req, res, next) {
     try {
-      console.log('Simple search request body:', req.body);
-
-      const { q, query, types, city, cityId, limit = 20, page = 0 } = req.body;
-      const searchQuery = q || query;
-
-      if (!searchQuery || searchQuery.trim().length === 0) {
-        return res.status(400).json({ error: 'Empty query', results: [] });
+      console.log('Request body:', req.body); // Debug
+      const { query, types, city, limit = 20, page = 0 } = req.body;
+      if (!query || query.trim().length === 0) {
+        return res.status(400).json({ error: 'Empty query' });
       }
-
-      // Use city parameter (preferred) or fall back to cityId for backward compatibility
-      const cityFilter = city || cityId;
 
       const typesArray = (types || 'restaurant,cafe,supermarket')
         .split(',')
         .map(t => t.trim().toLowerCase())
-        .map(t => t.replace(/s$/, '')) // Convert 'restaurants' to 'restaurant', etc.
+        .map(t => t.replace(/s$/, ''))
         .filter(Boolean);
 
-      const results = await unifiedSearchSimple(searchQuery, {
+      const results = await unifiedSearchSimple(query, {
         types: typesArray,
-        city: cityFilter,
+        cityId: city, // Pass city as string, service converts to ObjectId
         limit: parseInt(limit, 10),
         page: parseInt(page, 10),
       });
 
       res.json({ ok: true, results });
     } catch (err) {
-      console.error('Error in simple search controller:', err);
-      res.status(500).json({ ok: false, error: err.message, results: [] });
+      console.error('Simple search error:', err); // Debug
+      next(err);
     }
   },
 
@@ -98,13 +76,23 @@ export const aiSearchController = {
       const types = [];
 
       const targetModels = collection
-        ? [models[collection.toLowerCase().replace(/s$/, '')]] // Handle plural
+        ? [models[collection.toLowerCase().replace(/s$/, '')]]
         : [Restaurant, Cafe, Supermarket];
 
       for (const Model of targetModels) {
         if (!Model) continue;
         const pipeline = [
-          ...(city ? [{ $match: { city } }] : []),
+          ...(city
+            ? [
+                {
+                  $match: {
+                    city: new mongoose.Types.ObjectId(
+                      CITIES[city.toUpperCase().replace(/ /g, '_')] || city,
+                    ),
+                  },
+                },
+              ]
+            : []),
           { $unwind: { path: '$type', preserveNullAndEmptyArrays: true } },
           { $group: { _id: '$type', count: { $sum: 1 } } },
           { $match: { _id: { $ne: null } } },
@@ -122,6 +110,7 @@ export const aiSearchController = {
 
       res.json({ ok: true, types });
     } catch (err) {
+      console.error('Get types error:', err); // Debug
       next(err);
     }
   },
@@ -134,7 +123,17 @@ export const aiSearchController = {
 
       for (const Model of models) {
         const pipeline = [
-          ...(city ? [{ $match: { city } }] : []),
+          ...(city
+            ? [
+                {
+                  $match: {
+                    city: new mongoose.Types.ObjectId(
+                      CITIES[city.toUpperCase().replace(/ /g, '_')] || city,
+                    ),
+                  },
+                },
+              ]
+            : []),
           { $group: { _id: '$neighborhood', count: { $sum: 1 } } },
           { $match: { _id: { $ne: null } } },
           { $sort: { _id: 1 } },
@@ -155,6 +154,7 @@ export const aiSearchController = {
 
       res.json({ ok: true, neighborhoods: unique });
     } catch (err) {
+      console.error('Get neighborhoods error:', err); // Debug
       next(err);
     }
   },
@@ -193,6 +193,7 @@ export const aiSearchController = {
 
       res.json({ ok: true, types: unique });
     } catch (err) {
+      console.error('Get types from items error:', err); // Debug
       next(err);
     }
   },
